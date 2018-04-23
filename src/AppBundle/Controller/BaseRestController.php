@@ -331,7 +331,7 @@ abstract class BaseRestController extends FOSRestController
      *
      * @return View|Form|\Symfony\Component\Form\FormInterface
      */
-    public function handleForm(Request $request,  $formType, $entity, array $options = array(), $cleanForm = false, $dryRun = false, $options = [])
+    public function handleForm(Request $request,  $formType, $entity, array $options = array(), $cleanForm = false, $dryRun = false)
     {
         $view = new View();
         $context = new Context();
