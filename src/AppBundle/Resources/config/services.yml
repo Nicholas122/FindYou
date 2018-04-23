@@ -25,6 +25,7 @@ services:
 
     app.translation_constant.service:
         class: AppBundle\Service\TranslationConstantService
+        arguments: ['@doctrine.orm.entity_manager']
 
     app.photo.service:
         class: AppBundle\Service\PhotoService
@@ -36,3 +37,4 @@ services:
 
     app.reply.service:
         class: AppBundle\Service\ReplyService
+        arguments: ['@doctrine.orm.entity_manager']
