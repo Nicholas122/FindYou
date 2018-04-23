@@ -44,7 +44,7 @@ class ExternalCharacteristicChoiceValueController extends BaseRestController
             ],
         ];
 
-        return $this->handleForm($request, new ExternalCharacteristicChoiceValueForm(), new ExternalCharacteristicChoiceValue(), $groups);
+        return $this->handleForm($request, ExternalCharacteristicChoiceValueForm::class, new ExternalCharacteristicChoiceValue(), $groups);
     }
 
     /**
@@ -71,7 +71,7 @@ class ExternalCharacteristicChoiceValueController extends BaseRestController
             ],
         ];
 
-        return $this->handleForm($request, new ExternalCharacteristicChoiceValueForm(), $externalCharacteristicValue, $groups, true);
+        return $this->handleForm($request, ExternalCharacteristicChoiceValueForm::class, $externalCharacteristicValue, $groups, true);
     }
 
     /**

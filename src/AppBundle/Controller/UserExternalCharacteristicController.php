@@ -46,7 +46,7 @@ class UserExternalCharacteristicController extends BaseRestController
 
         $request->request->set('user', $this->getUser()->getId());
 
-        return $this->handleForm($request, new UserExternalCharacteristicForm(), new UserExternalCharacteristic(), $groups);
+        return $this->handleForm($request, UserExternalCharacteristicForm::class, new UserExternalCharacteristic(), $groups);
     }
 
     /**
@@ -74,7 +74,7 @@ class UserExternalCharacteristicController extends BaseRestController
             ],
         ];
 
-        return $this->handleForm($request, new UserExternalCharacteristicForm(), $externalCharacteristic, $groups, true);
+        return $this->handleForm($request, UserExternalCharacteristicForm::class, $externalCharacteristic, $groups, true);
     }
 
     /**

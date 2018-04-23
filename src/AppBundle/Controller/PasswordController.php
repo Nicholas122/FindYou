@@ -67,7 +67,7 @@ class PasswordController extends BaseRestController
                 ],
             ];
 
-            $response = $this->handleForm($request, new UserForm(), $user, $groups, true);
+            $response = $this->handleForm($request, UserForm::class, $user, $groups, true);
         }
 
         return $response;

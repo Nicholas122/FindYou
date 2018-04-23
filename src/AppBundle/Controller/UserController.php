@@ -90,7 +90,7 @@ class UserController extends BaseRestController
             ],
         ];
 
-        return $this->handleForm($request, new UserForm(), $user, $groups, true);
+        return $this->handleForm($request, UserForm::class, $user, $groups, true);
     }
 
     /**

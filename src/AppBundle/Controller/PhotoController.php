@@ -40,7 +40,7 @@ class PhotoController extends BaseRestController
             ],
         ];
 
-        return $this->handleForm($request, new PhotoForm(), new Photo(), $groups);
+        return $this->handleForm($request, PhotoForm::class, new Photo(), $groups);
     }
 
     /**

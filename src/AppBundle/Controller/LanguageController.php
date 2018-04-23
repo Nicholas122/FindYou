@@ -44,7 +44,7 @@ class LanguageController extends BaseRestController
             ],
         ];
 
-        return $this->handleForm($request, new LanguageForm(), new Language(), $groups);
+        return $this->handleForm($request, LanguageForm::class, new Language(), $groups);
     }
 
     /**
@@ -71,7 +71,7 @@ class LanguageController extends BaseRestController
             ],
         ];
 
-        return $this->handleForm($request, new LanguageForm(), $language, $groups, true);
+        return $this->handleForm($request, LanguageForm::class, $language, $groups, true);
     }
 
     /**

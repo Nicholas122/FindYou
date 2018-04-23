@@ -46,7 +46,7 @@ class MessageController extends BaseRestController
             ],
         ];
 
-        return $this->handleForm($request, new OutgoingMessageForm(), new OutgoingMessage(), $groups);
+        return $this->handleForm($request, OutgoingMessageForm::class, new OutgoingMessage(), $groups);
     }
 
     /**

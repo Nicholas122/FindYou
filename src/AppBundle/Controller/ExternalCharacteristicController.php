@@ -42,7 +42,7 @@ class ExternalCharacteristicController extends BaseRestController
             ],
         ];
 
-        return $this->handleForm($request, new ExternalCharacteristicForm(), new ExternalCharacteristic(), $groups);
+        return $this->handleForm($request, ExternalCharacteristicForm::class, new ExternalCharacteristic(), $groups);
     }
 
     /**
@@ -69,7 +69,7 @@ class ExternalCharacteristicController extends BaseRestController
             ],
         ];
 
-        return $this->handleForm($request, new ExternalCharacteristicForm(), $externalCharacteristic, $groups, true);
+        return $this->handleForm($request, ExternalCharacteristicForm::class, $externalCharacteristic, $groups, true);
     }
 
     /**

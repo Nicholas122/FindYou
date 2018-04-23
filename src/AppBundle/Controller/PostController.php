@@ -45,7 +45,7 @@ class PostController extends BaseRestController
         ];
 
         try {
-            $response = $this->handleForm($request, new PostForm(), new Post(), $groups);
+            $response = $this->handleForm($request, PostForm::class, new Post(), $groups);
         }
         catch (PostLimitException $exception) {
             $response = $response = $this->responseErrorMessage('post_creation_error', [
@@ -80,7 +80,7 @@ class PostController extends BaseRestController
             ],
         ];
 
-        return $this->handleForm($request, new PostForm(), $post, $groups, true);
+        return $this->handleForm($request, PostForm::class, $post, $groups, true);
     }
 
     /**

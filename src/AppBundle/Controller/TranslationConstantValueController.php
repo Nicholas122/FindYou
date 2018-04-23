@@ -44,7 +44,7 @@ class TranslationConstantValueController extends BaseRestController
             ],
         ];
 
-        return $this->handleForm($request, new TranslationConstantValueForm(), new TranslationConstantValue(), $groups);
+        return $this->handleForm($request, TranslationConstantValueForm::class, new TranslationConstantValue(), $groups);
     }
 
     /**
@@ -71,7 +71,7 @@ class TranslationConstantValueController extends BaseRestController
             ],
         ];
 
-        return $this->handleForm($request, new TranslationConstantValueForm(), $translationConstantValue, $groups, true);
+        return $this->handleForm($request, TranslationConstantValueForm::class, $translationConstantValue, $groups, true);
     }
 
     /**

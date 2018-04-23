@@ -31,7 +31,7 @@ class ReplyController extends BaseRestController
     {
         $reply = new Reply();
 
-        $response = $this->handleForm($request, new ReplyForm(), $reply, ['persist' => false]);
+        $response = $this->handleForm($request, ReplyForm::class, $reply, ['persist' => false]);
 
         if ($response->getStatusCode() === 201) {
             $this->getReplyService()->process($reply, $this->getUser());
