@@ -362,8 +362,12 @@ abstract class BaseRestController extends FOSRestController
 
                 return $view;
             }
-
-            $isEditAction = $entity->getId();
+            if (method_exists($entity, 'getId')) {
+                $isEditAction = $entity->getId();
+            }
+            else {
+                $isEditAction = false;
+            }
             $statusCode = $isEditAction ? Response::HTTP_OK : Response::HTTP_CREATED;
             /** @var \Doctrine\Common\Persistence\ObjectManager $em */
             $em = $this->getDoctrine()->getManager();
