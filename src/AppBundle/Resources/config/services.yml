@@ -1,0 +1,38 @@
+imports:
+    - { resource: validators.yml }
+    - { resource: listeners.yml }
+    - { resource: jms.yml }
+
+parameters:
+    base_dir: 'files'
+    web_dir: '%kernel.root_dir%/../web'
+    turbo_sms_auth_data: { login: zikko122, password: 432576 }
+    google_geocode_api_key: 'AIzaSyAje2rcJpByfNa-Zcr7wkiDFuex1oCzbM8'
+    domain: 'localhost:8000'
+services:
+    app.verify.service:
+        class: AppBundle\Service\VerifyService
+        arguments: ['@request_stack', '@doctrine.orm.entity_manager', '@app.sms.service']
+
+    app.sms.service:
+        class: AppBundle\Service\SmsService
+        arguments: ['%turbo_sms_auth_data%', '@logger']
+        public: true
+
+    app.password.service:
+        class: AppBundle\Service\PasswordService
+        arguments: ['@doctrine.orm.entity_manager', '@security.encoder_factory', '@vidia_auth.session.service']
+
+    app.translation_constant.service:
+        class: AppBundle\Service\TranslationConstantService
+
+    app.photo.service:
+        class: AppBundle\Service\PhotoService
+        arguments: ['%web_dir%', '%base_dir%']
+
+    app.google_geocode.service:
+        class: AppBundle\Service\Google\GoogleGeocodeService
+        arguments: ['%google_geocode_api_key%']
+
+    app.reply.service:
+        class: AppBundle\Service\ReplyService

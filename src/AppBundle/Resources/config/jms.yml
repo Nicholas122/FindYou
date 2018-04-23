@@ -1,0 +1,11 @@
+services:
+    app.serializer.post:
+        class: AppBundle\Serializer\PostListener
+        arguments: ['@security.token_storage']
+        tags:
+            - { name: jms_serializer.event_subscriber }
+
+    app.serializer.user:
+        class: AppBundle\Serializer\UserListener
+        tags:
+            - { name: jms_serializer.event_subscriber }

@@ -1,0 +1,8 @@
+services:
+
+    form_authenticator:
+          class: Vidia\AdminBundle\Security\FormAuthenticator
+          arguments: ["@router", "@security.password_encoder"]
+
+    admin.user_provider:
+        class: Vidia\AdminBundle\Security\Authentication\AppUserProvider

@@ -1,0 +1,26 @@
+vidia_admin:
+    resource: "@VidiaAdminBundle/Controller/"
+    type:     annotation
+    prefix:   /
+    host: "admin.%domain%"
+
+vidia_auth:
+    resource: "@VidiaAuthBundle/Controller/"
+    type:     rest
+    prefix:   /api
+
+resize:
+    path: /files/{linkedEntityType}/{linkedEntityId}/{name}-{width}x{height}.{format}
+    defaults: { _controller: AppBundle:File:resizeFileImage }
+    methods: [GET]
+
+app:
+    resource: "@AppBundle/Controller"
+    type: rest
+    prefix:   /api
+
+
+app.swagger_ui:
+    path: /api/doc
+    methods: GET
+    defaults: { _controller: nelmio_api_doc.controller.swagger_ui }

@@ -1,0 +1,32 @@
+services:
+    app.set_owner.entity_listener:
+        class: AppBundle\EventListener\DoctrineEntityListener\SetOwnerListener
+        arguments: ['@security.token_storage']
+        tags:
+            - { name: doctrine.orm.entity_listener }
+
+    app.user.entity_listener:
+        class: AppBundle\EventListener\DoctrineEntityListener\UserEntityListener
+        arguments: ['@request_stack']
+        tags:
+            - { name: doctrine.orm.entity_listener }
+
+
+
+    app.photo.entity_listener:
+        class: AppBundle\EventListener\DoctrineEntityListener\PhotoEntityListener
+        arguments: ['@app.photo.service']
+        tags:
+            - { name: doctrine.orm.entity_listener }
+
+    app.post.entity_listener:
+        class: AppBundle\EventListener\DoctrineEntityListener\PostEntityListener
+        arguments: ['@request_stack', '@app.google_geocode.service', '@security.token_storage']
+        tags:
+            - { name: doctrine.orm.entity_listener }
+
+    app.user_external_characteristic.exception_listener:
+        class: AppBundle\EventListener\KernelEventListener\UserExternalCharacteristicExceptionListener
+        arguments: ['@translator']
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }

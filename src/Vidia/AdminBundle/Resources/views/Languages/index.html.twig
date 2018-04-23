@@ -1,0 +1,87 @@
+{% include 'VidiaAdminBundle:layouts:header.html.twig' %}
+<div class="wrapper">
+    {% include 'VidiaAdminBundle:layouts:sidebar.html.twig' %}
+
+    <div class="main-panel">
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar bar1"></span>
+                        <span class="icon-bar bar2"></span>
+                        <span class="icon-bar bar3"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">Dashboard</a>
+                </div>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="/logout">
+                                <p>Logout</p>
+                            </a>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+
+
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card languages">
+                            <div class="header">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h4 class="title">Languages</h4>
+                                    </div>
+                                    <div class="col-md-offset-9">
+                                        <a href="/languages/new" class="btn btn-success"><i class="ti-plus"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="content table-responsive table-full-width">
+                                <table class="table table-striped">
+                                    <thead>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Locale</th>
+                                    <th>Default</th>
+                                    </thead>
+                                    <tbody>
+                                    {% for language in languages %}
+                                        <tr>
+                                            <td>{{ language.id }}</td>
+                                            <td>{{ language.name }}</td>
+                                            <td>{{ language.locale }}</td>
+                                            <td>
+                                                {% if language.isDefault %}
+                                                    <i class="ti-check"></i>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                <a href="/languages/{{ language.id }}">
+                                                    <i class="ti-pencil edit"></i>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="#" class="entity-delete" data-route="/languages/{{ language.id }}">
+                                                    <i class="ti-trash delete"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% include 'VidiaAdminBundle:layouts:footer.html.twig' %}
+

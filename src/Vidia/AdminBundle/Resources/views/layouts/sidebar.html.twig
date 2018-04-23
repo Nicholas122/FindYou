@@ -1,0 +1,39 @@
+<div class="sidebar" data-background-color="white" data-active-color="danger">
+    <div class="sidebar-wrapper">
+        <div class="logo">
+            <a href="https://www.findyou.com.ua" class="simple-text">
+                Find You
+            </a>
+        </div>
+        <ul class="nav">
+            <li class="{% if app.request.attributes.get('_route') == 'home' %}active{% endif %}">
+                <a href="/">
+                    <i class="ti-panel"></i>
+                    <p>Dashboard</p>
+                </a>
+            </li>
+            <li class="{% if app.request.attributes.get('_route') in ['users', 'user']%}active{% endif %}">
+                <a href="/users">
+
+                    <i class="ti-user"></i>
+                    <p>Users</p>
+                </a>
+            </li>
+            <li class="{% if app.request.attributes.get('_route') in ['languages', 'language', 'new-language' ] %}active{% endif %}">
+                <a href="/languages">
+
+                    <i class="ti-world"></i>
+                    <p>Languages</p>
+                </a>
+            </li>
+            <li class="{% if app.request.attributes.get('_route') in  ['translation-constant', 'translation-constants', 'new-translation-constants',
+                'new-translation-constant-values', 'edit-translation-constant-value' ] %}active{% endif %}">
+                <a href="/translation-constants">
+
+                    <i class="ti-location-arrow"></i>
+                    <p>Translation constant</p>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>

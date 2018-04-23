@@ -1,0 +1,94 @@
+{% include 'VidiaAdminBundle:layouts:header.html.twig' %}
+<div class="wrapper">
+    {% include 'VidiaAdminBundle:layouts:sidebar.html.twig' %}
+
+    <div class="main-panel">
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar bar1"></span>
+                        <span class="icon-bar bar2"></span>
+                        <span class="icon-bar bar3"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">Dashboard</a>
+                </div>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="/logout">
+                                <p>Logout</p>
+                            </a>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card language-card">
+                            {{ form_start(form) }}
+                            {{ form_widget(form)}}
+                            {{ form_end(form) }}
+                        </div>
+                    </div>
+                </div>
+
+                {% if  translationConstantValues is defined %}
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card translation-constant">
+                                <div class="header">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h4 class="title">Translation Constant Values</h4>
+                                        </div>
+                                        <div class="col-md-offset-9">
+                                            <a href="/translation-constant-values/new?translation-constant={{ translationConstant.id }}" class="btn btn-success"><i class="ti-plus"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="content table-responsive table-full-width">
+                                    <table class="table table-striped">
+                                        <thead>
+                                        <th>ID</th>
+                                        <th>Value</th>
+                                        <th>Language</th>
+                                        </thead>
+                                        <tbody>
+                                        {% for value in translationConstantValues %}
+                                            <tr>
+                                                <td>{{ value.id }}</td>
+                                                <td>{{ value.value }}</td>
+                                                <td>{{ value.language.name }}</td>
+
+                                                <td>
+                                                    <a href="/translation-constant-values/{{ value.id }}">
+                                                        <i class="ti-pencil edit"></i>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <a href="#" class="entity-delete" data-route="/translation-constant-values/{{ value.id }}">
+                                                        <i class="ti-trash delete"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        </div>
+        {% include 'VidiaAdminBundle:layouts:footer.html.twig' %}
+

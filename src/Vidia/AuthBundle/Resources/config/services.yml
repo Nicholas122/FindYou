@@ -1,0 +1,66 @@
+parameters:
+
+services:
+    vidia_auth.api_key_user_provider:
+        class: Vidia\AuthBundle\Security\Authentication\ApiKeyUserProvider
+        arguments: ['@doctrine.orm.entity_manager', "%vidia_auth.token.increase_time%", "%kernel.environment%"]
+        public: true
+
+    vidia_auth.api_key_authenticator:
+        class:  Vidia\AuthBundle\Security\Authentication\ApiKeyAuthenticator
+        public: false
+
+    vidia_auth.api_token.service:
+        class: Vidia\AuthBundle\Service\ApiTokenService
+        arguments: ["@security.password_encoder", "%vidia_auth.token.expiration_date%", "@request_stack", "%kernel.environment%"]
+
+    vidia_auth.security.access.super_admin_voter:
+        class:      Vidia\AuthBundle\Security\Voter\SuperAdminVoter
+        public:     false
+        tags:
+           - { name: security.voter }
+
+    vidia_auth.security.access.owner_voter:
+        class:      Vidia\AuthBundle\Security\Voter\OwnerVoter
+        public:     false
+        arguments: ['@service_container']
+        tags:
+           - { name: security.voter }
+
+    vidia_auth.authentication_entry_point:
+        class: Vidia\AuthBundle\Security\Authentication\AuthenticationEntryPoint
+
+    vidia_auth.authentication_handler:
+        class: Vidia\AuthBundle\Handler\AuthenticationHandler
+        arguments:
+            - '@jms_serializer'
+            - '@service_container'
+    vidia_auth.email_and_password_auth.strategy:
+        class: Vidia\AuthBundle\Strategy\Auth\EmailAndPasswordAuthStrategy
+        arguments: ['@doctrine.orm.entity_manager', '@security.encoder_factory', '@vidia_auth.api_token.service']
+
+    vidia_auth.login_and_password_auth.strategy:
+        class: Vidia\AuthBundle\Strategy\Auth\LoginAndPasswordAuthStrategy
+        arguments: ['@doctrine.orm.entity_manager', '@security.encoder_factory', '@vidia_auth.api_token.service']
+
+    vidia_auth.refresh_token_auth.strategy:
+        class: Vidia\AuthBundle\Strategy\Auth\RefreshTokenAuthStrategy
+        arguments: ['@doctrine.orm.entity_manager', '@vidia_auth.api_token.service']
+
+    vidia_auth.user_auth.service:
+        class: Vidia\AuthBundle\Service\UserAuthService
+        arguments:
+            -
+                - '@vidia_auth.email_and_password_auth.strategy'
+                - '@vidia_auth.login_and_password_auth.strategy'
+                - '@vidia_auth.refresh_token_auth.strategy'
+
+    auth.user.entity_listener:
+        class: Vidia\AuthBundle\EventListener\UserEntityListener
+        arguments: ['@vidia_auth.api_token.service', '@security.password_encoder', '@security.token_storage']
+        tags:
+            - { name: doctrine.orm.entity_listener }
+
+    vidia_auth.session.service:
+        class: Vidia\AuthBundle\Service\SessionService
+        arguments: ['@doctrine.orm.entity_manager', '@request_stack']

@@ -1,0 +1,9 @@
+not_blank: 'This value should not be blank.'
+old_password_is_not_correct: 'Your old password is not correct. Enter it again.'
+bad_credentials: "The username or password you entered doesn't belong to an account. Please check your data and try again."
+have_no_money: 'There is not enough money on the balance to send SMS.'
+is_not_valid_restore_access_key: 'The key for changing the password is not valid.'
+can_not_proccess_sms: 'Unable to send message. Try later.'
+invalid_refresh_token: 'Invalid or expired refresh token.'
+post_limit_error: 'There is a limit to the creation of publications.'
+growth_validation_error: 'The minimum possible growth can be 100 centimeters, and maximum up to 250 centimeters.'

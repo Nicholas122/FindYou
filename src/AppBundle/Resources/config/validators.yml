@@ -1,0 +1,11 @@
+services:
+    app.unique_translationConstant_value.validator:
+        class: AppBundle\Validator\Constraints\UniqueTranslationConstantValueValidator
+        arguments: ['@doctrine.orm.entity_manager']
+        tags:
+          - { name: validator.constraint_validator }
+
+    app.is_valid_external_characteristic.validator:
+        class: AppBundle\Validator\Constraints\IsValidExternalCharacteristicValidator
+        tags:
+          - { name: validator.constraint_validator }

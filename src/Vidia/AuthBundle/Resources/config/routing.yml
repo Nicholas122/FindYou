@@ -1,0 +1,4 @@
+
+auth_security:
+    type: rest
+    resource: Vidia\AuthBundle\Controller\SecurityController

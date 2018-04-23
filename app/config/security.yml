@@ -1,0 +1,89 @@
+# To get started with security, check out the documentation:
+# https://symfony.com/doc/current/security.html
+security:
+    role_hierarchy:
+        ROLE_USER:
+          - ABILITY_USER_OWNER
+          - ABILITY_USER_UPDATE
+          - ABILITY_USER_DELETE
+          - ABILITY_USER_EXTERNAL_CHARACTERISTIC_OWNER
+          - ABILITY_USER_EXTERNAL_CHARACTERISTIC_CREATE
+          - ABILITY_USER_EXTERNAL_CHARACTERISTIC_UPDATE
+          - ABILITY_USER_EXTERNAL_CHARACTERISTIC_DELETE
+          - ABILITY_POST_OWNER
+          - ABILITY_POST_CREATE
+          - ABILITY_POST_UPDATE
+          - ABILITY_POST_DELETE
+          - ABILITY_PHOTO_OWNER
+          - ABILITY_PHOTO_CREATE
+          - ABILITY_PHOTO_DELETE
+          - ABILITY_REPLY_CREATE
+          - ABILITY_MESSAGE_CREATE
+        ROLE_SUPER_ADMIN: [ROLE_USER]
+    encoders:
+        AppBundle\Entity\User: sha512
+    providers:
+        api_key_user_provider:
+            id: vidia_auth.api_key_user_provider
+        vidia_admin.user_provider:
+            id: admin.user_provider
+    firewalls:
+        restore-password:
+            methods: [POST]
+            pattern: ^/api/password/(access-key|restore)
+            anonymous: true
+        test:
+            methods: [GET]
+            pattern: ^/api/(sms|geocode)
+            anonymous: true
+
+        translation-constant-value:
+            methods: [GET]
+            pattern: ^/api/translation-constant-values
+            anonymous: true
+
+        translation-constants:
+            methods: [GET]
+            pattern: ^/api/translation-constants
+            anonymous: true
+
+        languages:
+            methods: [GET]
+            pattern: ^/api/languages
+            anonymous: true
+
+        verify:
+            methods: [POST, GET]
+            pattern: ^/api/verify
+            anonymous: true
+
+        user:
+            methods: [POST]
+            pattern: ^/api/users
+            anonymous: true
+
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+            anonymous: ~
+
+        main:
+            pattern: ^/api/(?!(doc|authorize|refresh-token)).*$
+            stateless: true
+            simple_preauth:
+                authenticator: vidia_auth.api_key_authenticator
+            provider: api_key_user_provider
+            entry_point: vidia_auth.authentication_entry_point
+
+        admin:
+            anonymous: ~
+            host: admin.%domain%
+            provider: vidia_admin.user_provider
+            logout:
+                path:   /logout
+                target: /
+            guard:
+                authenticators:
+                    - form_authenticator
+        default:
+            anonymous: ~
