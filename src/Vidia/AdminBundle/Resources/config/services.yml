@@ -6,3 +6,4 @@ services:
 
     admin.user_provider:
         class: Vidia\AdminBundle\Security\Authentication\AppUserProvider
+        arguments: ['@doctrine.orm.entity_manager']
