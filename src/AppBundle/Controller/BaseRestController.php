@@ -16,6 +16,7 @@ use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Translation\Translator;
 
 abstract class BaseRestController extends FOSRestController
 {
@@ -330,7 +331,7 @@ abstract class BaseRestController extends FOSRestController
      *
      * @return View|Form|\Symfony\Component\Form\FormInterface
      */
-    public function handleForm(Request $request,  $formType, $entity, array $options = array(), $cleanForm = false, $dryRun = false)
+    public function handleForm(Request $request,  $formType, $entity, array $options = array(), $cleanForm = false, $dryRun = false, $options = [])
     {
         $view = new View();
         $context = new Context();
@@ -362,16 +363,14 @@ abstract class BaseRestController extends FOSRestController
 
                 return $view;
             }
-            if (method_exists($entity, 'getId')) {
+
+            if (array_key_exists('persist', $options) && $options['persist'] === true || array_key_exists('persist', $options) === false) {
                 $isEditAction = $entity->getId();
+                $statusCode = $isEditAction ? Response::HTTP_OK : Response::HTTP_CREATED;
+                /** @var \Doctrine\Common\Persistence\ObjectManager $em */
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($entity);
             }
-            else {
-                $isEditAction = false;
-            }
-            $statusCode = $isEditAction ? Response::HTTP_OK : Response::HTTP_CREATED;
-            /** @var \Doctrine\Common\Persistence\ObjectManager $em */
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
 
             try {
                 $em->flush();
