@@ -370,14 +370,14 @@ abstract class BaseRestController extends FOSRestController
                 /** @var \Doctrine\Common\Persistence\ObjectManager $em */
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($entity);
-            }
 
-            try {
-                $em->flush();
-            } catch (\Exception $e) {
-                throw $e;
+                try {
+                    $em->flush();
+                } catch (\Exception $e) {
+                    throw $e;
+                }
+                $em->refresh($entity);
             }
-            $em->refresh($entity);
 
             $view->setStatusCode($statusCode);
             $view->setData($entity);
