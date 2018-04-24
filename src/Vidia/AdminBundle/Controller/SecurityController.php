@@ -16,7 +16,7 @@ class SecurityController extends Controller
     {
         $form = $this->createForm(SignInForm::class);
 
-        return $this->render('VidiaAdminBundle:Security:sign-in.html.twig', ['form' => $form->createView()]);
+        return $this->render('@VidiaAdmin/security/sign-in.html.twig', ['form' => $form->createView()]);
     }
 
     /**

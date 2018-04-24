@@ -38,7 +38,7 @@ class TranslationConstantValuesController extends BaseController
 
                 $response = $this->redirectToRoute('translation-constant', ['translationConstant' => $translationConstantValue->getTranslationConstant()->getId()]);
             } else {
-                $response = $this->render('VidiaAdminBundle:TranslationConstantValue:translation-constant-value.html.twig', [
+                $response = $this->render('@VidiaAdmin/translationConstantValue/translation-constant-value.html.twig', [
                     'form' => $form->createView(),
                 ]);
             }
@@ -69,7 +69,7 @@ class TranslationConstantValuesController extends BaseController
                 $response = $this->redirectToRoute('translation-constant', ['translationConstant' => $translationConstantValue->getTranslationConstant()->getId()]);
             } else {
             }
-            $response = $this->render('VidiaAdminBundle:TranslationConstantValue:translation-constant-value.html.twig', [
+            $response = $this->render('@VidiaAdmin/translationConstantValue/translation-constant-value.html.twig', [
                 'form' => $form->createView(),
             ]);
         }

@@ -17,7 +17,7 @@ class HomeController extends BaseController
         if (!$user instanceof User) {
             $response = $this->redirectToRoute('sign-in');
         } else {
-            $response = $this->render('VidiaAdminBundle:Home:index.html.twig', [
+            $response = $this->render('@VidiaAdmin/home/index.html.twig', [
                 'usersQuantity' => $this->getUsersQuantity(),
             ]);
         }

@@ -20,7 +20,7 @@ class TranslationConstantController extends BaseController
         if (!$user instanceof User) {
             $response = $this->redirectToRoute('sign-in');
         } else {
-            $response = $this->render('VidiaAdminBundle:TranslationConstant:index.html.twig', [
+            $response = $this->render('@VidiaAdmin/translationConstant/index.html.twig', [
                 'translationConstants' => $this->findBy('AppBundle:TranslationConstant', [], ['id' => 'DESC']),
             ]);
         }
@@ -50,7 +50,7 @@ class TranslationConstantController extends BaseController
 
                 $response = $this->redirectToRoute('translation-constants');
             } else {
-                $response = $this->render('VidiaAdminBundle:TranslationConstant:translation-constant.html.twig', [
+                $response = $this->render('@VidiaAdmin/translationConstant/translation-constant.html.twig', [
                     'form' => $form->createView(),
                 ]);
             }
@@ -80,7 +80,7 @@ class TranslationConstantController extends BaseController
 
                 $response = $this->redirectToRoute('translation-constants');
             } else {
-                $response = $this->render('VidiaAdminBundle:TranslationConstant:translation-constant.html.twig', [
+                $response = $this->render('@VidiaAdmin/translationConstant/translation-constant.html.twig', [
                     'form' => $form->createView(),
                     'translationConstantValues' => $this->findBy('AppBundle:TranslationConstantValue', ['translationConstant' => $translationConstant->getId()]),
                     'translationConstant' => $translationConstant,

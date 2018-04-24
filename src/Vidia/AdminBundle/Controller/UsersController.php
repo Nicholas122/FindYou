@@ -20,7 +20,7 @@ class UsersController extends BaseController
         if (!$user instanceof User) {
             $response = $this->redirectToRoute('sign-in');
         } else {
-            $response = $this->render('VidiaAdminBundle:Users:index.html.twig', [
+            $response = $this->render('@VidiaAdmin/users/index.html.twig', [
                 'users' => $this->findBy('AppBundle:User', []),
             ]);
         }
@@ -48,7 +48,7 @@ class UsersController extends BaseController
                 $em->flush();
             }
 
-            $response = $this->render('VidiaAdminBundle:Users:user.html.twig', [
+            $response = $this->render('@VidiaAdmin/users/user.html.twig', [
                 'user' => $user,
                 'form' => $form->createView(),
                 'posts' => $this->findBy('AppBundle:Post', ['user' => $user->getId()]),

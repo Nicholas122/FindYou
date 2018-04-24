@@ -20,7 +20,7 @@ class LanguagesController extends BaseController
         if (!$user instanceof User) {
             $response = $this->redirectToRoute('sign-in');
         } else {
-            $response = $this->render('VidiaAdminBundle:Languages:index.html.twig', [
+            $response = $this->render('@VidiaAdmin/languages/index.html.twig', [
                 'languages' => $this->findBy('AppBundle:Language', []),
             ]);
         }
@@ -50,7 +50,7 @@ class LanguagesController extends BaseController
 
                 $response = $this->redirectToRoute('languages');
             } else {
-                $response = $this->render('VidiaAdminBundle:Languages:language.html.twig', [
+                $response = $this->render('@VidiaAdmin/languages/language.html.twig', [
                     'form' => $form->createView(),
                 ]);
             }
@@ -80,7 +80,7 @@ class LanguagesController extends BaseController
 
                 $response = $this->redirectToRoute('languages');
             } else {
-                $response = $this->render('VidiaAdminBundle:Languages:language.html.twig', [
+                $response = $this->render('@VidiaAdmin/languages/language.html.twig', [
                     'form' => $form->createView(),
                 ]);
             }
