@@ -13,7 +13,7 @@ class UsersController extends BaseController
     /**
      * @Route("/users", name="users")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $user = $this->getUser();
 
@@ -21,7 +21,7 @@ class UsersController extends BaseController
             $response = $this->redirectToRoute('sign-in');
         } else {
             $response = $this->render('@VidiaAdmin/users/index.html.twig', [
-                'users' => $this->findBy('AppBundle:User', []),
+                'users' => $this->getUsers($request),
             ]);
         }
 
