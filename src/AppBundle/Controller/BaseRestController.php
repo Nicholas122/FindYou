@@ -355,7 +355,9 @@ abstract class BaseRestController extends FOSRestController
             $this->cleanForm($request, $form);
         }
 
-        $form->submit($request->request->all());
+        $data = array_merge($request->request->all(), $request->files->all());
+
+        $form->submit($data);
 
         if ($form->isValid()) {
             if ($dryRun) {
