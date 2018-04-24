@@ -19,6 +19,12 @@ class HomeController extends BaseController
         } else {
             $response = $this->render('@VidiaAdmin/home/index.html.twig', [
                 'usersQuantity' => $this->getUsersQuantity(),
+                'usersOnlineCount' => $this->getUsersOnlineCount() ?: 0,
+                'userRegistryStat' => json_encode($this->getUserRegistryStat()),
+                'memoryUsage' => $this->getMemoryUsage(),
+                'spaceUsage' => $this->getSpaceUsage(),
+                'serverUptime' => $this->getServerUptime()
+
             ]);
         }
 

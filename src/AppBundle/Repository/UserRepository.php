@@ -18,4 +18,44 @@ class UserRepository extends \Doctrine\ORM\EntityRepository
 
         return $result;
     }
+
+    public function getUsersOnline()
+    {
+        $today = new \DateTime('- 15 minutes');
+
+        $qb = $this->createQueryBuilder('entity');
+        $query = $qb
+            ->leftJoin('VidiaAuthBundle:Session', 'session', 'WITH', 'session.user = entity.id')
+            ->where($qb->expr()->gte('session.online', $qb->expr()->literal($today->format('Y-m-d H:i:s'))));
+
+        try {
+            return $query->getQuery()->getResult();
+        } catch (\Exception $exception) {
+            return false;
+        }
+    }
+
+    public function getUserRegistryStat()
+    {
+        $months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
+        $stats = [];
+
+        foreach ($months as $month) {
+            $qb = $this->createQueryBuilder('entity');
+            $startDay = date("2018-$month-01");
+            $endDate =  date("2018-$month-t");
+
+            $query = $qb->select($qb->expr()->count('entity.id'))
+                ->where($qb->expr()->gte('entity.registrationDate', $qb->expr()->literal($startDay)))
+                ->andWhere($qb->expr()->lte('entity.registrationDate', $qb->expr()->literal($endDate)));
+
+            try {
+                $stats[] = intval($query->getQuery()->getSingleScalarResult());
+            } catch (\Exception $exception) {
+                return false;
+            }
+        }
+
+        return $stats;
+    }
 }

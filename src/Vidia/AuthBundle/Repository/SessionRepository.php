@@ -41,4 +41,35 @@ class SessionRepository extends \Doctrine\ORM\EntityRepository
             return false;
         }
     }
+
+    public function getLastDateOnlineByUserId($userId)
+    {
+        $qb = $this->createQueryBuilder('entity');
+        $query = $qb->select('entity.online')
+            ->where('entity.user = :userId')
+            ->orderBy('entity.online', 'DESC')
+            ->setMaxResults(1)
+            ->setParameter('userId', $userId);
+        try {
+            return $query->getQuery()->getSingleScalarResult();
+        } catch (\Exception $exception) {
+            return false;
+        }
+    }
+
+    public function getUsersOnlineCount()
+    {
+        $today = new \DateTime('- 15 minutes');
+
+        $qb = $this->createQueryBuilder('entity');
+        $query = $qb->select($qb->expr()->countDistinct('entity.user'))
+            ->where($qb->expr()->gte('entity.online', $qb->expr()->literal($today->format('Y-m-d H:i:s'))));
+
+        try {
+            return $query->getQuery()->getSingleScalarResult();
+        } catch (\Exception $exception) {
+            return false;
+        }
+    }
+
 }
