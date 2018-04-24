@@ -36,7 +36,7 @@ class Post implements HasOwnerInterface
      * @JMS\Groups({"default"})
      * @ORM\Column(type="text", length=1000, nullable=true)
      * @Assert\Length(max="1000")
-     * @Assert\NotBLank()
+     * @Assert\NotBlank()
      */
     protected $description;
 
@@ -98,6 +98,11 @@ class Post implements HasOwnerInterface
     protected $deletedDate;
 
     /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $vkId;
+
+    /**
      * Get id.
      *
      * @return int
@@ -139,9 +144,14 @@ class Post implements HasOwnerInterface
      * @return Post
      * @ORM\PrePersist()
      */
-    public function setCreationDate()
+    public function setCreationDate($creationDate = null)
     {
-        $this->creationDate = new \DateTime('now');
+        if ($creationDate instanceof \DateTime) {
+            $this->creationDate = $creationDate;
+        }
+        elseif(empty($this->creationDate)) {
+            $this->creationDate = new \DateTime('now');
+        }
 
         return $this;
     }
@@ -355,5 +365,29 @@ class Post implements HasOwnerInterface
     public function getDeletedDate()
     {
         return $this->deletedDate;
+    }
+
+    /**
+     * Set vkId
+     *
+     * @param string $vkId
+     *
+     * @return Post
+     */
+    public function setVkId($vkId)
+    {
+        $this->vkId = $vkId;
+
+        return $this;
+    }
+
+    /**
+     * Get vkId
+     *
+     * @return string
+     */
+    public function getVkId()
+    {
+        return $this->vkId;
     }
 }

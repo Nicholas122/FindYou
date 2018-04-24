@@ -7,11 +7,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 use JMS\Serializer\Annotation as JMS;
 use Vidia\AuthBundle\Entity\HasOwnerInterface;
 use Vidia\AuthBundle\Entity\User;
-use Swagger\Annotations as SWG;
 
 /**
  * UserConversation.
- * @SWG\Definition()
+ *
  * @JMS\ExclusionPolicy("all")
  * @ORM\Entity()
  * @ORM\HasLifecycleCallbacks()
@@ -39,12 +38,33 @@ class UserConversation implements HasOwnerInterface
     protected $user;
 
     /**
-     * @JMS\Expose
-     * @JMS\Groups({"default"})
      * @ORM\ManyToOne(targetEntity="Conversation")
      * @ORM\JoinColumn(name="parent_conversation_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $parentConversation;
+
+    /**
+     * @JMS\Expose
+     * @JMS\Groups({"default"})
+     * @ORM\Column(type="datetime")
+     */
+    protected $creationDate;
+
+    /**
+     * @JMS\Expose
+     * @JMS\Groups({"default"})
+     * @ORM\ManyToOne(targetEntity="Post")
+     * @ORM\JoinColumn(name="post_id", referencedColumnName="id", onDelete="CASCADE")
+     */
+    protected $post;
+
+    /**
+     * @JMS\Expose
+     * @JMS\Groups({"default"})
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="receiver_id", referencedColumnName="id", onDelete="CASCADE")
+     */
+    protected $receiver;
 
     /**
      * Get id
@@ -110,5 +130,77 @@ class UserConversation implements HasOwnerInterface
     public function getOwners()
     {
         return [$this->getUser()];
+    }
+
+    /**
+     * Set creationDate
+     *
+     * @param \DateTime $creationDate
+     *
+     * @return UserConversation
+     */
+    public function setCreationDate($creationDate)
+    {
+        $this->creationDate = $creationDate;
+
+        return $this;
+    }
+
+    /**
+     * Get creationDate
+     *
+     * @return \DateTime
+     */
+    public function getCreationDate()
+    {
+        return $this->creationDate;
+    }
+
+    /**
+     * Set post
+     *
+     * @param \AppBundle\Entity\Post $post
+     *
+     * @return UserConversation
+     */
+    public function setPost(\AppBundle\Entity\Post $post = null)
+    {
+        $this->post = $post;
+
+        return $this;
+    }
+
+    /**
+     * Get post
+     *
+     * @return \AppBundle\Entity\Post
+     */
+    public function getPost()
+    {
+        return $this->post;
+    }
+
+    /**
+     * Set receiver
+     *
+     * @param \AppBundle\Entity\User $receiver
+     *
+     * @return UserConversation
+     */
+    public function setReceiver(\AppBundle\Entity\User $receiver = null)
+    {
+        $this->receiver = $receiver;
+
+        return $this;
+    }
+
+    /**
+     * Get receiver
+     *
+     * @return \AppBundle\Entity\User
+     */
+    public function getReceiver()
+    {
+        return $this->receiver;
     }
 }

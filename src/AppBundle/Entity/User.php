@@ -405,7 +405,7 @@ class User extends BaseUser
         else{
             $this->registrationDate = new \DateTime('now');
         }
-
+        
 
         return $this;
     }

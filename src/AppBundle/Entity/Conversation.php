@@ -36,7 +36,7 @@ class Conversation
     /**
      * @JMS\Expose
      * @JMS\Groups({"default"})
-     * @ORM\ManyToOne(targetEntity="Post", inversedBy="photos")
+     * @ORM\ManyToOne(targetEntity="Post")
      * @ORM\JoinColumn(name="post_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $post;
