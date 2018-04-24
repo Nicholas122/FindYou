@@ -8,52 +8,46 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Vidia\AdminBundle\Form\LanguageForm;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class LanguagesController extends BaseController
 {
     /**
      * @Route("/languages", name="languages")
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
      */
     public function indexAction()
     {
-        $user = $this->getUser();
-        if (!$user instanceof User) {
-            $response = $this->redirectToRoute('sign-in');
-        } else {
-            $response = $this->render('@VidiaAdmin/languages/index.html.twig', [
-                'languages' => $this->findBy('AppBundle:Language', []),
-            ]);
-        }
+        $response = $this->render('@VidiaAdmin/languages/index.html.twig', [
+            'languages' => $this->findBy('AppBundle:Language', []),
+        ]);
 
         return $response;
     }
 
     /**
      * @Route("/languages/new", name="new-language")
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
      */
     public function newAction(Request $request)
     {
-        if (!$this->getUser() instanceof User) {
-            $response = $this->redirectToRoute('sign-in');
+        $language = new Language();
+
+        $form = $this->createForm(LanguageForm::class, $language);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid() && 'POST' == $request->getMethod()) {
+            $em = $this->getDoctrine()->getManager();
+
+            $em->persist($language);
+            $em->flush();
+
+            $response = $this->redirectToRoute('languages');
         } else {
-            $language = new Language();
-
-            $form = $this->createForm(LanguageForm::class, $language);
-
-            $form->handleRequest($request);
-
-            if ($form->isSubmitted() && $form->isValid() && 'POST' == $request->getMethod()) {
-                $em = $this->getDoctrine()->getManager();
-
-                $em->persist($language);
-                $em->flush();
-
-                $response = $this->redirectToRoute('languages');
-            } else {
-                $response = $this->render('@VidiaAdmin/languages/language.html.twig', [
-                    'form' => $form->createView(),
-                ]);
-            }
+            $response = $this->render('@VidiaAdmin/languages/language.html.twig', [
+                'form' => $form->createView(),
+            ]);
         }
 
         return $response;
@@ -62,28 +56,25 @@ class LanguagesController extends BaseController
     /**
      * @Route("/languages/{language}", name="language")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
      */
     public function editAction(Language $language, Request $request)
     {
-        if (!$this->getUser() instanceof User) {
-            $response = $this->redirectToRoute('sign-in');
+        $form = $this->createForm(LanguageForm::class, $language);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid() && 'POST' == $request->getMethod()) {
+            $em = $this->getDoctrine()->getManager();
+
+            $em->persist($language);
+            $em->flush();
+
+            $response = $this->redirectToRoute('languages');
         } else {
-            $form = $this->createForm(LanguageForm::class, $language);
-
-            $form->handleRequest($request);
-
-            if ($form->isSubmitted() && $form->isValid() && 'POST' == $request->getMethod()) {
-                $em = $this->getDoctrine()->getManager();
-
-                $em->persist($language);
-                $em->flush();
-
-                $response = $this->redirectToRoute('languages');
-            } else {
-                $response = $this->render('@VidiaAdmin/languages/language.html.twig', [
-                    'form' => $form->createView(),
-                ]);
-            }
+            $response = $this->render('@VidiaAdmin/languages/language.html.twig', [
+                'form' => $form->createView(),
+            ]);
         }
 
         return $response;
@@ -92,19 +83,16 @@ class LanguagesController extends BaseController
     /**
      * @Route("/languages/{language}", name="delete-language")
      * @Method({"DELETE"})
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
      */
     public function deleteAction(Language $language, Request $request)
     {
-        if (!$this->getUser() instanceof User) {
-            $response = $this->redirectToRoute('sign-in');
-        } else {
-            $em = $this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManager();
 
-            $em->remove($language);
-            $em->flush();
+        $em->remove($language);
+        $em->flush();
 
-            $response = $this->redirectToRoute('languages');
-        }
+        $response = $this->redirectToRoute('languages');
 
         return $response;
     }

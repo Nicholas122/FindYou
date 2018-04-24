@@ -12,7 +12,7 @@ class SecurityController extends Controller
     /**
      * @Route("/sign-in", name="sign-in")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $form = $this->createForm(SignInForm::class);
 

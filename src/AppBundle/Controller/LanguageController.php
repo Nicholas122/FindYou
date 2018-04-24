@@ -5,7 +5,6 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Language;
 use AppBundle\Form\LanguageForm;
 use Doctrine\ORM\EntityRepository;
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcher;
 use Symfony\Component\HttpFoundation\Request;

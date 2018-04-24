@@ -8,52 +8,46 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Vidia\AdminBundle\Form\TranslationConstantForm;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class TranslationConstantController extends BaseController
 {
     /**
      * @Route("/translation-constants", name="translation-constants")
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
      */
     public function indexAction()
     {
-        $user = $this->getUser();
-        if (!$user instanceof User) {
-            $response = $this->redirectToRoute('sign-in');
-        } else {
-            $response = $this->render('@VidiaAdmin/translationConstant/index.html.twig', [
-                'translationConstants' => $this->findBy('AppBundle:TranslationConstant', [], ['id' => 'DESC']),
-            ]);
-        }
+        $response = $this->render('@VidiaAdmin/translationConstant/index.html.twig', [
+            'translationConstants' => $this->findBy('AppBundle:TranslationConstant', [], ['id' => 'DESC']),
+        ]);
 
         return $response;
     }
 
     /**
      * @Route("/translation-constants/new", name="new-translation-constants")
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
      */
     public function newAction(Request $request)
     {
-        if (!$this->getUser() instanceof User) {
-            $response = $this->redirectToRoute('sign-in');
+        $translationConstant = new TranslationConstant();
+
+        $form = $this->createForm(TranslationConstantForm::class, $translationConstant);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid() && 'POST' == $request->getMethod()) {
+            $em = $this->getDoctrine()->getManager();
+
+            $em->persist($translationConstant);
+            $em->flush();
+
+            $response = $this->redirectToRoute('translation-constants');
         } else {
-            $translationConstant = new TranslationConstant();
-
-            $form = $this->createForm(TranslationConstantForm::class, $translationConstant);
-
-            $form->handleRequest($request);
-
-            if ($form->isSubmitted() && $form->isValid() && 'POST' == $request->getMethod()) {
-                $em = $this->getDoctrine()->getManager();
-
-                $em->persist($translationConstant);
-                $em->flush();
-
-                $response = $this->redirectToRoute('translation-constants');
-            } else {
-                $response = $this->render('@VidiaAdmin/translationConstant/translation-constant.html.twig', [
-                    'form' => $form->createView(),
-                ]);
-            }
+            $response = $this->render('@VidiaAdmin/translationConstant/translation-constant.html.twig', [
+                'form' => $form->createView(),
+            ]);
         }
 
         return $response;
@@ -62,30 +56,27 @@ class TranslationConstantController extends BaseController
     /**
      * @Route("/translation-constants/{translationConstant}", name="translation-constant")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
      */
     public function editAction(TranslationConstant $translationConstant, Request $request)
     {
-        if (!$this->getUser() instanceof User) {
-            $response = $this->redirectToRoute('sign-in');
+        $form = $this->createForm(TranslationConstantForm::class, $translationConstant);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid() && 'POST' == $request->getMethod()) {
+            $em = $this->getDoctrine()->getManager();
+
+            $em->persist($translationConstant);
+            $em->flush();
+
+            $response = $this->redirectToRoute('translation-constants');
         } else {
-            $form = $this->createForm(TranslationConstantForm::class, $translationConstant);
-
-            $form->handleRequest($request);
-
-            if ($form->isSubmitted() && $form->isValid() && 'POST' == $request->getMethod()) {
-                $em = $this->getDoctrine()->getManager();
-
-                $em->persist($translationConstant);
-                $em->flush();
-
-                $response = $this->redirectToRoute('translation-constants');
-            } else {
-                $response = $this->render('@VidiaAdmin/translationConstant/translation-constant.html.twig', [
-                    'form' => $form->createView(),
-                    'translationConstantValues' => $this->findBy('AppBundle:TranslationConstantValue', ['translationConstant' => $translationConstant->getId()]),
-                    'translationConstant' => $translationConstant,
-                ]);
-            }
+            $response = $this->render('@VidiaAdmin/translationConstant/translation-constant.html.twig', [
+                'form' => $form->createView(),
+                'translationConstantValues' => $this->findBy('AppBundle:TranslationConstantValue', ['translationConstant' => $translationConstant->getId()]),
+                'translationConstant' => $translationConstant,
+            ]);
         }
 
         return $response;
@@ -94,19 +85,16 @@ class TranslationConstantController extends BaseController
     /**
      * @Route("/translation-constants/{translationConstant}", name="delete-translation-constant")
      * @Method({"DELETE"})
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
      */
     public function deleteAction(TranslationConstant $translationConstant, Request $request)
     {
-        if (!$this->getUser() instanceof User) {
-            $response = $this->redirectToRoute('sign-in');
-        } else {
-            $em = $this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManager();
 
-            $em->remove($translationConstant);
-            $em->flush();
+        $em->remove($translationConstant);
+        $em->flush();
 
-            $response = $this->redirectToRoute('translation-constants');
-        }
+        $response = $this->redirectToRoute('translation-constants');
 
         return $response;
     }
