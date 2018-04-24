@@ -50,7 +50,7 @@ class UserRepository extends \Doctrine\ORM\EntityRepository
                 ->andWhere($qb->expr()->lte('entity.registrationDate', $qb->expr()->literal($endDate)));
 
             try {
-                $stats[] = intval($query->getQuery()->getSingleScalarResult());
+                $stats[] = intval($query->getQuery()->getOneOrNullResult());
             } catch (\Exception $exception) {
                 return false;
             }
