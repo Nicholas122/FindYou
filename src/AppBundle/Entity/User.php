@@ -156,6 +156,14 @@ class User extends BaseUser
     protected $language;
 
     /**
+     * @JMS\Expose
+     * @JMS\Groups({"user", "auth"})
+     * @ORM\Column(type="datetime", nullable=true)
+     *
+     */
+    protected $registrationDate;
+
+    /**
      * Returns the roles granted to the user.
      *
      * <code>
@@ -380,5 +388,35 @@ class User extends BaseUser
     public function getPhoto()
     {
         return $this->photo;
+    }
+
+    /**
+     * Set registrationDate
+     *
+     * @ORM\PrePersist()
+     *
+     * @return User
+     */
+    public function setRegistrationDate($registrationDate = null)
+    {
+        if ($registrationDate) {
+            $this->registrationDate = $registrationDate;
+        }
+        else{
+            $this->registrationDate = new \DateTime('now');
+        }
+
+
+        return $this;
+    }
+
+    /**
+     * Get registrationDate
+     *
+     * @return \DateTime
+     */
+    public function getRegistrationDate()
+    {
+        return $this->registrationDate;
     }
 }
