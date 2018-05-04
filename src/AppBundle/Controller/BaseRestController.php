@@ -365,6 +365,8 @@ abstract class BaseRestController extends FOSRestController
 
                 return $view;
             }
+            
+            $statusCode = Response::HTTP_CREATED;
 
             if (array_key_exists('persist', $options) && $options['persist'] === true || array_key_exists('persist', $options) === false) {
                 $isEditAction = $entity->getId();
