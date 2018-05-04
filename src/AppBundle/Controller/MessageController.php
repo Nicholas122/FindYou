@@ -55,7 +55,7 @@ class MessageController extends BaseRestController
      * @Rest\QueryParam(name="_sort")
      * @Rest\QueryParam(name="_limit",  requirements="\d+", nullable=true, strict=true)
      * @Rest\QueryParam(name="_offset", requirements="\d+", nullable=true, strict=true)
-     *
+     * @Rest\QueryParam(name="conversation", description="Conversation id")
      */
     public function cgetAction(ParamFetcher $paramFetcher)
     {
