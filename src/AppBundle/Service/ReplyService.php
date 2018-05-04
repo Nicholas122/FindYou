@@ -56,7 +56,8 @@ class ReplyService
         $receiverConversation = new UserConversation();
         $receiverConversation->setUser($receiver);
         $receiverConversation->setParentConversation($conversation);
-        $authorConversation->setReceiver($author);
+        $receiverConversation->setPost($conversation->getPost());
+        $receiverConversation->setReceiver($author);
 
         $this->em->persist($authorConversation);
         $this->em->persist($receiverConversation);
