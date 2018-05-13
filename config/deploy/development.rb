@@ -26,7 +26,7 @@ server '31.131.21.158', user: 'deployer', roles: %w{app web db}, port: 2022
 # Feel free to add new variables to customise your setup.
 set :deploy_to, '/var/www/server/findyou/'
 # Default branch is :master
-set :branch, :'updade'
+set :branch, :'development'
 
 #Custom SSH Options
 # ==================
