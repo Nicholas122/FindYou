@@ -54,7 +54,7 @@ security:
 
         verify:
             methods: [POST, GET]
-            pattern: ^/api/verify
+            pattern: ^/api/tests
             anonymous: true
 
         user:

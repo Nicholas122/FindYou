@@ -3,9 +3,11 @@
 namespace AppBundle\EventListener\DoctrineEntityListener;
 
 use AppBundle\Entity\IncomingMessage;
+use AppBundle\Entity\Notification;
 use AppBundle\Entity\OutgoingMessage;
 use AppBundle\Entity\Photo;
 use AppBundle\Entity\UserConversation;
+use AppBundle\Service\FcmService;
 use AppBundle\Service\Google\GoogleGeocodeService;
 use AppBundle\Service\PhotoService;
 use Doctrine\ORM\Event\LifecycleEventArgs;
@@ -14,6 +16,12 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class OutgoingMessageEntityListener
 {
+    private  $fcmService;
+
+    public function __construct(FcmService $fcmService)
+    {
+        $this->fcmService = $fcmService;
+    }
 
     /**
      * Set author.
@@ -74,4 +82,28 @@ class OutgoingMessageEntityListener
 
         $args->getEntityManager()->persist($incomingMessage);
     }
+
+    /**
+     * Create Notification.
+     *
+     * @ORM\PrePersist()
+     *
+     * @param LifecycleEventArgs $args
+     */
+    public function createNotification(OutgoingMessage $entity, LifecycleEventArgs $args)
+    {
+        $notification = new Notification();
+        $notification->setReceiver($entity->getReceiver());
+        $notification->setTitle('Message');
+        $notification->setType('info');
+        $notification->setLink('https://www.findyou.com.ua/replies');
+        $notification->setBody($entity->getMessageBody());
+        $notification->setIsRead(0);
+        $notification->setAuthor($entity->getAuthor());
+
+        $this->fcmService->sendNotification($notification);
+
+        $args->getEntityManager()->persist($notification);
+    }
+
 }

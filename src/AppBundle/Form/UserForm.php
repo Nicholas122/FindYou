@@ -30,7 +30,8 @@ class UserForm extends AbstractType
             ->add('role', null, ['empty_data' => 'ROLE_USER'])
             ->add('password', null, array(
                 'property_path' => 'plainPassword',
-            ));
+            ))
+            ->add('firebaseToken');
     }
 
     /**

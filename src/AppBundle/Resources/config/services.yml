@@ -37,3 +37,8 @@ services:
     app.reply.service:
         class: AppBundle\Service\ReplyService
         arguments: ['@doctrine.orm.entity_manager']
+
+    app.fcm.service:
+        public: true
+        class: AppBundle\Service\FcmService
+        arguments: ['%schema%', '%domain%']

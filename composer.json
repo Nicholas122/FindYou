@@ -21,7 +21,6 @@
     },
     "require": {
         "php": ">=5.5.9",
-        "cdaguerre/php-trello-api": "@dev",
         "doctrine/doctrine-bundle": "^1.6",
         "doctrine/doctrine-fixtures-bundle": "^3.0",
         "doctrine/doctrine-migrations-bundle": "^1.3",

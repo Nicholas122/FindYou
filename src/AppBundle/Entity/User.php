@@ -164,6 +164,13 @@ class User extends BaseUser
     protected $registrationDate;
 
     /**
+     * @JMS\Expose
+     * @JMS\Groups({"default", "auth"})
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $firebaseToken;
+
+    /**
      * Returns the roles granted to the user.
      *
      * <code>
@@ -418,5 +425,29 @@ class User extends BaseUser
     public function getRegistrationDate()
     {
         return $this->registrationDate;
+    }
+
+    /**
+     * Set firebaseToken
+     *
+     * @param string $firebaseToken
+     *
+     * @return User
+     */
+    public function setFirebaseToken($firebaseToken)
+    {
+        $this->firebaseToken = $firebaseToken;
+
+        return $this;
+    }
+
+    /**
+     * Get firebaseToken
+     *
+     * @return string
+     */
+    public function getFirebaseToken()
+    {
+        return $this->firebaseToken;
     }
 }
