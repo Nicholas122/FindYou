@@ -4,6 +4,7 @@ namespace AppBundle\Service;
 
 
 use AppBundle\Entity\Notification;
+use AppBundle\Entity\Photo;
 
 class FcmService
 {
@@ -20,12 +21,19 @@ class FcmService
 
     public function sendNotification(Notification $notification)
     {
+        if ($notification->getAuthor()->getPhoto() instanceof Photo) {
+            $icon = $this->schema.'://'.$this->domain.'/'.$notification->getAuthor()->getPhoto()->getPath();
+        }
+        else {
+            $icon = '';
+        }
+
         $request_body = [
             'to' => $notification->getReceiver()->getFirebaseToken(),
             'notification' => [
                 'title' => $notification->getTitle(),
                 'body' =>  $notification->getBody(),
-                'icon' => $this->schema.'://'.$this->domain.'/'.$notification->getAuthor()->getPhoto()->getPath(),
+                'icon' => $icon,
                 'click_action' => $notification->getLink(),
             ],
             "data" => [

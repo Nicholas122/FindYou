@@ -196,10 +196,11 @@ class Notification
      * @param \DateTime $creationDate
      *
      * @return Notification
+     * @ORM\PrePersist()
      */
     public function setCreationDate($creationDate)
     {
-        $this->creationDate = $creationDate;
+        $this->creationDate = new \DateTime();
 
         return $this;
     }
