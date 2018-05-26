@@ -2,7 +2,7 @@
 
 namespace AppBundle\Form;
 
-use AppBundle\Entity\Post;
+use AppBundle\Entity\Conversation;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -16,7 +16,9 @@ class OutgoingMessageForm extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('conversation')
+            ->add('conversation',EntityType::class, [
+                'class' => Conversation::class
+            ])
             ->add('messageBody');
     }
 

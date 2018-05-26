@@ -11,9 +11,10 @@ use AppBundle\Service\ReplyService;
 use Doctrine\ORM\EntityRepository;
 use FOS\RestBundle\Request\ParamFetcher;
 use Symfony\Component\HttpFoundation\Request;
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Swagger\Annotations as SWG;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Nelmio\ApiDocBundle\Annotation\Model;
 
 /**
  * Class MessageController.
@@ -31,6 +32,18 @@ class MessageController extends BaseRestController
      * @param Request $request
      *
      * @Security("has_role('ABILITY_MESSAGE_CREATE')")
+     * @SWG\Tag(name="Message")
+     * @SWG\Response(
+     *     response=200,
+     *     description="Create message",
+     *     @Model(type=AppBundle\Entity\OutgoingMessage::class)
+     * )
+     * @SWG\Parameter(
+     *         name="form",
+     *         in="body",
+     *         description="Request params",
+     *         @Model(type=AppBundle\Form\OutgoingMessageForm::class)
+     *     )
      */
     public function postAction(Request $request)
     {
@@ -56,6 +69,15 @@ class MessageController extends BaseRestController
      * @Rest\QueryParam(name="_limit",  requirements="\d+", nullable=true, strict=true)
      * @Rest\QueryParam(name="_offset", requirements="\d+", nullable=true, strict=true)
      * @Rest\QueryParam(name="conversation", description="Conversation id")
+     * @SWG\Tag(name="Message")
+     * @SWG\Response(
+     *     response=200,
+     *     description="Returns the user message",
+     *     @SWG\Schema(
+     *         type="array",
+     *         @SWG\Items(ref=@Model(type=AppBundle\Entity\OutgoingMessage::class))
+     *     )
+     * )
      */
     public function cgetAction(ParamFetcher $paramFetcher)
     {
