@@ -73,8 +73,8 @@ abstract class BaseRestController extends FOSRestController
     }
 
     /**
-     * @param EntityRepository  $repository
-     * @param array             $fields
+     * @param EntityRepository $repository
+     * @param array $fields
      * @param callable|\Closure $callback
      *
      * @return Response
@@ -85,7 +85,7 @@ abstract class BaseRestController extends FOSRestController
         /** @var ClassMetadata $classMetadata */
         $classMetadata = $this->getDoctrine()->getManager()->getClassMetadata($repository->getClassName());
         $fields = array_filter($fields, function ($value) {
-            return $value == (string) 0 ? true : !empty($value);
+            return $value == (string)0 ? true : !empty($value);
         });
 
         $sort = null;
@@ -115,19 +115,19 @@ abstract class BaseRestController extends FOSRestController
             if (is_array($value)) {
                 if ($classMetadata->isCollectionValuedAssociation($field)) {
                     $queryBuilder->leftJoin(
-                        'AppBundle:'.(array_key_exists($field, $this->entityMapping) ? $this->entityMapping[$field] : ucfirst($field)),
+                        'AppBundle:' . (array_key_exists($field, $this->entityMapping) ? $this->entityMapping[$field] : ucfirst($field)),
                         $field, 'WITH',
-                        $field.'.'.strtolower(substr($repository->getClassName(), strrpos($repository->getClassName(), '\\') + 1)).' = entity.id'
+                        $field . '.' . strtolower(substr($repository->getClassName(), strrpos($repository->getClassName(), '\\') + 1)) . ' = entity.id'
                     );
-                    $classMetadata = $this->getDoctrine()->getManager()->getClassMetadata('AppBundle\\Entity\\'.(array_key_exists($field, $this->entityMapping) ? $this->entityMapping[$field] : ucfirst($field)));
+                    $classMetadata = $this->getDoctrine()->getManager()->getClassMetadata('AppBundle\\Entity\\' . (array_key_exists($field, $this->entityMapping) ? $this->entityMapping[$field] : ucfirst($field)));
                     foreach ($value as $f => $v) {
-                        $queryBuilder = $this->filter($queryBuilder, $expr, $classMetadata, $field.'.'.$f, $v);
+                        $queryBuilder = $this->filter($queryBuilder, $expr, $classMetadata, $field . '.' . $f, $v);
                     }
                 } elseif ($classMetadata->hasAssociation($field)) {
-                    $queryBuilder->innerJoin('entity.'.$field, $field);
+                    $queryBuilder->innerJoin('entity.' . $field, $field);
                     foreach ($value as $f => $v) {
-                        $column = $field.'.'.$f;
-                        $classMetadata = $this->getDoctrine()->getManager()->getClassMetadata('AppBundle\\Entity\\'.ucfirst($field));
+                        $column = $field . '.' . $f;
+                        $classMetadata = $this->getDoctrine()->getManager()->getClassMetadata('AppBundle\\Entity\\' . ucfirst($field));
                         $queryBuilder = $this->filter($queryBuilder, $expr, $classMetadata, $column, $v);
                     }
                 } else {
@@ -135,7 +135,7 @@ abstract class BaseRestController extends FOSRestController
                 }
             } else {
                 $classMetadata = $this->getDoctrine()->getManager()->getClassMetadata($repository->getClassName());
-                $queryBuilder = $this->filter($queryBuilder, $expr, $classMetadata, 'entity.'.$field, $value);
+                $queryBuilder = $this->filter($queryBuilder, $expr, $classMetadata, 'entity.' . $field, $value);
             }
         }
 
@@ -159,26 +159,25 @@ abstract class BaseRestController extends FOSRestController
         $queryBuilder->setMaxResults($limit);
 
         if (isset($sort)) {
-            if (count($sort) > 1){
-                foreach ($sort as $key => $value){
+            if (count($sort) > 1) {
+                foreach ($sort as $key => $value) {
                     if ($classMetadata->hasField($key)) {
                         $queryBuilder->addOrderBy('entity.' . $key, $value);
                     }
                 }
-            }
-            else{
+            } else {
                 $field = key($sort);
                 if ($classMetadata->hasField($field)) {
-                    $queryBuilder->orderBy('entity.'.key($sort), array_shift($sort));
+                    $queryBuilder->orderBy('entity.' . key($sort), array_shift($sort));
                 } elseif (strpos($field, '[') != false) {
                     $entity = explode('[', $field);
                     if ($classMetadata->hasAssociation($entity[0])) {
-                        $subMetadata = $this->getDoctrine()->getManager()->getClassMetadata('AppBundle\\Entity\\'.ucfirst($entity[0]));
+                        $subMetadata = $this->getDoctrine()->getManager()->getClassMetadata('AppBundle\\Entity\\' . ucfirst($entity[0]));
                         if ($subMetadata->hasField($entity[1])) {
-                            if (!strpos($queryBuilder->getDQL(), 'entity.'.$entity[0])) {
-                                $queryBuilder->innerJoin('entity.'.$entity[0], $entity[0]);
+                            if (!strpos($queryBuilder->getDQL(), 'entity.' . $entity[0])) {
+                                $queryBuilder->innerJoin('entity.' . $entity[0], $entity[0]);
                             }
-                            $queryBuilder->orderBy($entity[0].'.'.$entity[1], array_shift($sort));
+                            $queryBuilder->orderBy($entity[0] . '.' . $entity[1], array_shift($sort));
                         }
                     }
                 }
@@ -204,7 +203,7 @@ abstract class BaseRestController extends FOSRestController
         }
 
         /**
-         * @var Serializer $serializer;
+         * @var Serializer $serializer ;
          */
         $serializer = $this->container->get('jms_serializer');
 
@@ -225,7 +224,7 @@ abstract class BaseRestController extends FOSRestController
             $context->setGroups($groups);
         }
         /**
-         * @var Serializer $serializer;
+         * @var Serializer $serializer ;
          */
         $serializer = $this->container->get('jms_serializer');
 
@@ -275,9 +274,9 @@ abstract class BaseRestController extends FOSRestController
             foreach ($array as $element) {
                 list($operator, $value) = $this->separateOperator($element);
                 if ($operator == 'LIKE') {
-                    $arr[] = $expr->like('entity.'.$field, $expr->literal("%$value%"));
+                    $arr[] = $expr->like('entity.' . $field, $expr->literal("%$value%"));
                 } else {
-                    $comparison = new Comparison('entity.'.$field, $operator, $value);
+                    $comparison = new Comparison('entity.' . $field, $operator, $value);
                     $arr[] = $comparison;
                 }
             }
@@ -323,15 +322,15 @@ abstract class BaseRestController extends FOSRestController
     /**
      * Handle form, this method is used by both POST and PUT action methods.
      *
-     * @param Request      $request
+     * @param Request $request
      * @param string $formType
-     * @param object       $entity
-     * @param array        $options
-     * @param bool         $cleanForm
+     * @param object $entity
+     * @param array $options
+     * @param bool $cleanForm
      *
      * @return View|Form|\Symfony\Component\Form\FormInterface
      */
-    public function handleForm(Request $request,  $formType, $entity, array $options = array(), $cleanForm = false, $dryRun = false)
+    public function handleForm(Request $request, $formType, $entity, array $options = array(), $cleanForm = false, $dryRun = false)
     {
         $view = new View();
         $context = new Context();
@@ -344,7 +343,7 @@ abstract class BaseRestController extends FOSRestController
         $formOptions = isset($options['formOptions']) ? $options['formOptions'] : array();
 
         /** @var \Symfony\Component\Form\Form $form */
-        $form = $this->getFormFactory()->create( $formType, $entity,
+        $form = $this->getFormFactory()->create($formType, $entity,
             array_merge(
                 array('csrf_protection' => false),
                 $formOptions
@@ -365,7 +364,7 @@ abstract class BaseRestController extends FOSRestController
 
                 return $view;
             }
-            
+
             $statusCode = Response::HTTP_CREATED;
 
             if (array_key_exists('persist', $options) && $options['persist'] === true || array_key_exists('persist', $options) === false) {
@@ -388,8 +387,18 @@ abstract class BaseRestController extends FOSRestController
         } else {
             $view->setStatusCode(Response::HTTP_UNPROCESSABLE_ENTITY);
 
-            $errors = $this->serializeFormErrors($form);
-            $view->setData(['form' => $errors, 'errors' => $errors['errors']]);
+            $formErrors = $this->serializeFormErrors($form);
+            $errors = [];
+            foreach ($formErrors['children'] as $field => $error) {
+                $errors[$field] = ['message' => $error];
+            }
+
+            $view->setData(
+                [
+                    'error_type' => 'form_validation_error',
+                    'errors' => $errors
+                ]
+            );
         }
 
         return $view;
@@ -399,7 +408,7 @@ abstract class BaseRestController extends FOSRestController
      * Remove unnecessary fields from form.
      *
      * @param Request $request
-     * @param Form    $form
+     * @param Form $form
      */
     protected function cleanForm(Request $request, Form $form)
     {
@@ -483,7 +492,7 @@ abstract class BaseRestController extends FOSRestController
 
         $format = $requset->get('_format');
 
-        $format = isset($format)? $format : 'json';
+        $format = isset($format) ? $format : 'json';
 
         return $format;
     }
