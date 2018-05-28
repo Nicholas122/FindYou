@@ -30,7 +30,7 @@ class UserConversationToConversation implements DataTransformerInterface
 
     public function getConversationIdByChildId($id)
     {
-        $repository = $this->getRepository('AppBundle:UserConversation');
+        $repository = $this->entityManager->getRepository('AppBundle:UserConversation');
 
         /**
          * @var UserConversation $userConvrsation
