@@ -26,9 +26,7 @@ class OutgoingMessageForm extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('conversation',EntityType::class, [
-                'class' => Conversation::class
-            ])
+            ->add('conversation')
             ->add('messageBody');
 
         $builder->get('conversation')

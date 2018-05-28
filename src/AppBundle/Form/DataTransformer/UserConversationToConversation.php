@@ -19,7 +19,7 @@ class UserConversationToConversation implements DataTransformerInterface
 
     public function transform($value)
     {
-        return $this->getConversationIdByChildId($value);
+        return $this->getConversationByChildId($value);
     }
 
 
@@ -28,7 +28,7 @@ class UserConversationToConversation implements DataTransformerInterface
         return $value;
     }
 
-    public function getConversationIdByChildId($id)
+    public function getConversationByChildId($id)
     {
         $repository = $this->entityManager->getRepository('AppBundle:UserConversation');
 
@@ -38,7 +38,7 @@ class UserConversationToConversation implements DataTransformerInterface
         $userConvrsation = $repository->findOneById($id);
 
         if ($userConvrsation instanceof UserConversation) {
-            $response = $userConvrsation->getParentConversation()->getId();
+            $response = $userConvrsation->getParentConversation();
         } else {
             $response = $id;
         }
