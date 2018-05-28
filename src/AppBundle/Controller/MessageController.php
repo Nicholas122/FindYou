@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\OutgoingMessage;
 use AppBundle\Entity\Reply;
+use AppBundle\Entity\UserConversation;
 use AppBundle\Form\OutgoingMessageForm;
 use AppBundle\Form\ReplyForm;
 use AppBundle\Service\ReplyService;
@@ -84,9 +85,30 @@ class MessageController extends BaseRestController
         /** @var EntityRepository $repository */
         $repository = $this->getRepository('AppBundle:Message');
         $paramFetcher = $paramFetcher->all();
-
         $paramFetcher['user'] = $this->getUser()->getId();
+        $paramFetcher['conversation'] = $this->getConversationIdByChildId($paramFetcher['conversation']);
 
         return $this->matching($repository, $paramFetcher, null, ['default']);
     }
+
+    public function getConversationIdByChildId($id)
+    {
+        $repository = $this->getRepository('AppBundle:UserConversation');
+
+        /**
+         * @var UserConversation $userConvrsation
+         */
+        $userConvrsation = $repository->findOneById($id);
+
+        if ($userConvrsation instanceof UserConversation) {
+            $response = $userConvrsation->getParentConversation()->getId();
+        }
+        else {
+            $response = null;
+        }
+
+        return $response;
+    }
+
+
 }
