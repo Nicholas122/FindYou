@@ -49,6 +49,6 @@ class OutgoingMessageForm extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'appbundle_reply';
+        return 'appbundle_outgoing_message';
     }
 }
