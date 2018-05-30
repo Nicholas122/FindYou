@@ -3,7 +3,6 @@
 namespace AppBundle\Form;
 
 use AppBundle\Entity\Conversation;
-use AppBundle\Form\DataTransformer\UserConversationToConversation;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -11,14 +10,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class OutgoingMessageForm extends AbstractType
 {
-
-    private $transformer;
-
-    public function __construct(UserConversationToConversation $transformer)
-    {
-        $this->transformer = $transformer;
-    }
-
 
     /**
      * {@inheritdoc}
