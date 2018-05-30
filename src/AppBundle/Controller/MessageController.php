@@ -60,7 +60,19 @@ class MessageController extends BaseRestController
             ],
         ];
 
-        return $this->handleForm($request, OutgoingMessageForm::class, new OutgoingMessage(), $groups);
+        $message = new OutgoingMessage();
+
+        if ($request->request->get('conversation')) {
+            $repository = $this->getRepository('AppBundle:UserConversation');
+
+            $userConversation = $repository->findOneById($request->request->get('conversation'));
+
+            if ($userConversation instanceof UserConversation) {
+                $message->setConversation($userConversation->getParentConversation());
+            }
+        }
+
+        return $this->handleForm($request, OutgoingMessageForm::class, $message, $groups);
     }
 
     /**

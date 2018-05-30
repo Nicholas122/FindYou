@@ -28,9 +28,6 @@ class OutgoingMessageForm extends AbstractType
         $builder
             ->add('conversation')
             ->add('messageBody');
-
-        $builder->get('conversation')
-            ->addModelTransformer($this->transformer);
     }
 
     /**
