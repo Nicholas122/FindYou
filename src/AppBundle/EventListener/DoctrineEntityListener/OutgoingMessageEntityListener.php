@@ -67,7 +67,7 @@ class OutgoingMessageEntityListener
     /**
      * Create IncomingMessage.
      *
-     * @ORM\PrePersist()
+     * @ORM\PostPersist()
      *
      * @param LifecycleEventArgs $args
      */
@@ -81,12 +81,13 @@ class OutgoingMessageEntityListener
         $incomingMessage->setMessageBody($entity->getMessageBody());
 
         $args->getEntityManager()->persist($incomingMessage);
+        $args->getEntityManager()->flush();
     }
 
     /**
      * Create Notification.
      *
-     * @ORM\PrePersist()
+     * @ORM\PostPersist()
      *
      * @param LifecycleEventArgs $args
      */
@@ -104,6 +105,7 @@ class OutgoingMessageEntityListener
         $this->fcmService->sendNotification($notification);
 
         $args->getEntityManager()->persist($notification);
+        $args->getEntityManager()->flush();
     }
 
 }
