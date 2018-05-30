@@ -65,25 +65,6 @@ class OutgoingMessageEntityListener
     }
 
     /**
-     * Create IncomingMessage.
-     *
-     * @ORM\PrePersist()
-     *
-     * @param LifecycleEventArgs $args
-     */
-    public function createIncomingMessage(OutgoingMessage $entity, LifecycleEventArgs $args)
-    {
-        $incomingMessage = new IncomingMessage();
-        $incomingMessage->setUser($entity->getReceiver());
-        $incomingMessage->setAuthor($entity->getUser());
-        $incomingMessage->setReceiver($entity->getReceiver());
-        $incomingMessage->setConversation($entity->getConversation());
-        $incomingMessage->setMessageBody($entity->getMessageBody());
-
-        $args->getEntityManager()->persist($incomingMessage);
-    }
-
-    /**
      * Create Notification.
      *
      * @ORM\PrePersist()
@@ -104,6 +85,26 @@ class OutgoingMessageEntityListener
         $this->fcmService->sendNotification($notification);
 
         $args->getEntityManager()->persist($notification);
+    }
+
+    /**
+     * Create IncomingMessage.
+     *
+     * @ORM\PostPersist()
+     *
+     * @param LifecycleEventArgs $args
+     */
+    public function createIncomingMessage(OutgoingMessage $entity, LifecycleEventArgs $args)
+    {
+        $incomingMessage = new IncomingMessage();
+        $incomingMessage->setUser($entity->getReceiver());
+        $incomingMessage->setAuthor($entity->getUser());
+        $incomingMessage->setReceiver($entity->getReceiver());
+        $incomingMessage->setConversation($entity->getConversation());
+        $incomingMessage->setMessageBody($entity->getMessageBody());
+
+        $args->getEntityManager()->persist($incomingMessage);
+        $args->getEntityManager()->flush();
     }
 
 }
