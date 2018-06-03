@@ -9,3 +9,8 @@ services:
         class: AppBundle\Serializer\UserListener
         tags:
             - { name: jms_serializer.event_subscriber }
+
+    app.serializer.user_conversation:
+        class: AppBundle\Serializer\UserConversationListener
+        tags:
+            - { name: jms_serializer.event_subscriber }
