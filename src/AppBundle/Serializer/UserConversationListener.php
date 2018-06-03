@@ -39,11 +39,11 @@ class UserConversationListener implements EventSubscriberInterface
 
     private function getLastActivity(UserConversation $userConversation)
     {
-        $response = '';
+        $response = null;
 
         $repository = $this->em->getRepository('AppBundle:Message');
 
-        $message = $repository->findBy([
+        $message = $repository->findOneBy([
             'conversation' => $userConversation->getParentConversation()->getId()
         ], ['creationDate' => 'DESC']);
 
