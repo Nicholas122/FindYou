@@ -120,13 +120,13 @@ class PostController extends BaseRestController
                 $coords = $googleGeocodeService->getCoordsByPlaceId($paramFetcher['placeId']);
 
                 $criteria
-                    ->select(['entity', '( 3959 * acos(cos(radians(' . $coords['lat'] . '))' .
-                        '* cos( radians( entity.lat ) )' .
-                        '* cos( radians( entity.lat )' .
-                        '- radians(' . $coords['lng'] . ') )' .
-                        '+ sin( radians(' . $coords['lat'] . ') )' .
-                        '* sin( radians( entity.lat ) ) ) )  AS HIDDEN distance'])
-                ->having('distance <= 60');
+                    ->select('entity',
+                        '( 6371 * acos( cos( radians('.$coords['lat'].') ) * ' .
+                        'cos( radians( entity.lat ) ) * ' .
+                        'cos( radians( entity.lng ) - radians('.$coords['lng'].') ) + ' .
+                        'sin( radians('.$coords['lat'].') ) * sin( radians( entity.lat ) ) ) ) AS HIDDEN distance')
+                ->having('distance <= 60')
+                ->orderBy('distance', 'ASC');
 
 
             }

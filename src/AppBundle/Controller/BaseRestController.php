@@ -145,7 +145,7 @@ abstract class BaseRestController extends FOSRestController
         }
 
         $count = clone $queryBuilder;
-        $count = $count->select('entity.id')->distinct('entity.id')->getQuery()->getResult();
+        $count = $count->distinct('entity.id')->getQuery()->getResult();
 
         $count = count($count);
         if ($offset < $count) {
