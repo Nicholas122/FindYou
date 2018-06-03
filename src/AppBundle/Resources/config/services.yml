@@ -7,7 +7,7 @@ parameters:
     base_dir: 'files'
     web_dir: '%kernel.root_dir%/../web'
     turbo_sms_auth_data: { login: zikko122, password: 432576 }
-    google_geocode_api_key: 'AIzaSyAje2rcJpByfNa-Zcr7wkiDFuex1oCzbM8'
+    google_geocode_api_key: 'AIzaSyDjSu79uZk4Wd_IRtIdPKyf9uhXBfy3Uew'
 services:
     app.verify.service:
         class: AppBundle\Service\VerifyService

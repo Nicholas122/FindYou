@@ -103,6 +103,16 @@ class Post implements HasOwnerInterface
     protected $vkId;
 
     /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $lat;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $lng;
+
+    /**
      * Get id.
      *
      * @return int
@@ -389,5 +399,53 @@ class Post implements HasOwnerInterface
     public function getVkId()
     {
         return $this->vkId;
+    }
+
+    /**
+     * Set lat
+     *
+     * @param string $lat
+     *
+     * @return Post
+     */
+    public function setLat($lat)
+    {
+        $this->lat = $lat;
+
+        return $this;
+    }
+
+    /**
+     * Get lat
+     *
+     * @return string
+     */
+    public function getLat()
+    {
+        return $this->lat;
+    }
+
+    /**
+     * Set lng
+     *
+     * @param string $lng
+     *
+     * @return Post
+     */
+    public function setLng($lng)
+    {
+        $this->lng = $lng;
+
+        return $this;
+    }
+
+    /**
+     * Get lng
+     *
+     * @return string
+     */
+    public function getLng()
+    {
+        return $this->lng;
     }
 }
