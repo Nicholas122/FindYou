@@ -34,7 +34,7 @@ class UserConversationListener implements EventSubscriberInterface
         $obj = $event->getObject();
 
         $visitor = $event->getVisitor();
-        $visitor->addData('lastActivity', $this->getLastActivity($obj));
+        $visitor->setData('lastActivity', $this->getLastActivity($obj));
     }
 
     private function getLastActivity(UserConversation $userConversation)
