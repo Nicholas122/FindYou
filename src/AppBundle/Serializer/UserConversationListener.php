@@ -29,12 +29,11 @@ class UserConversationListener implements EventSubscriberInterface
     public function onPreSerialize(ObjectEvent $event)
     {
         /**
-         * @var User
+         * @var UserConversation $obj
          */
         $obj = $event->getObject();
 
-        $visitor = $event->getVisitor();
-        $visitor->setData('lastActivity', $this->getLastActivity($obj));
+        $obj->setLastActivity($this->getLastActivity($obj));
     }
 
     private function getLastActivity(UserConversation $userConversation)
