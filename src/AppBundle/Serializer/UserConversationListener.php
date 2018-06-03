@@ -48,7 +48,7 @@ class UserConversationListener implements EventSubscriberInterface
         ], ['creationDate' => 'DESC']);
 
         if (count($message) > 0 && $message[0] instanceof Message) {
-            $response = $message[0]->getCreationDate()->format('y-m-d H:i:s');
+            $response = $message[0]->getCreationDate();
         }
 
         return $response;
