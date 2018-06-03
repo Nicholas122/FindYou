@@ -5,7 +5,9 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Post;
 use AppBundle\Exception\PostLimitException;
 use AppBundle\Form\PostForm;
+use AppBundle\Service\Google\GoogleGeocodeService;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcher;
@@ -46,8 +48,7 @@ class PostController extends BaseRestController
 
         try {
             $response = $this->handleForm($request, PostForm::class, new Post(), $groups);
-        }
-        catch (PostLimitException $exception) {
+        } catch (PostLimitException $exception) {
             $response = $response = $this->responseErrorMessage('post_creation_error', [
                 'code' => ['message' => $this->translate('post_limit_error', 'validators')],
             ], 423);
@@ -61,7 +62,7 @@ class PostController extends BaseRestController
      *
      *
      * @param Request $request
-     * @param Post    $post
+     * @param Post $post
      *
      * @Security("is_granted('ABILITY_POST_UPDATE', post)")
      */
@@ -109,9 +110,32 @@ class PostController extends BaseRestController
         $repository = $this->getRepository('AppBundle:Post');
         $paramFetcher = $paramFetcher->all();
 
+        $filterCallback = function (QueryBuilder $criteria) use ($paramFetcher) {
+            if ($paramFetcher['placeId']) {
+                /**
+                 * @var GoogleGeocodeService $googleGeocodeService
+                 */
+                $googleGeocodeService = $this->get('app.google_geocode.service');
+
+                $coords = $googleGeocodeService->getCoordsByPlaceId($paramFetcher['placeId']);
+
+                $criteria
+                    ->select(['entity', '( 3959 * acos(cos(radians(' . $coords['lat'] . '))' .
+                        '* cos( radians( entity.lat ) )' .
+                        '* cos( radians( entity.lat )' .
+                        '- radians(' . $coords['lng'] . ') )' .
+                        '+ sin( radians(' . $coords['lat'] . ') )' .
+                        '* sin( radians( entity.lat ) ) ) )  AS HIDDEN distance'])
+                ->having('distance <= 60');
+
+
+            }
+        };
+        unset($paramFetcher['placeId']);
+
         $paramFetcher['isDeleted'] = 0;
 
-        return $this->matching($repository, $paramFetcher, null, ['default']);
+        return $this->matching($repository, $paramFetcher, $filterCallback, ['default']);
     }
 
     /**

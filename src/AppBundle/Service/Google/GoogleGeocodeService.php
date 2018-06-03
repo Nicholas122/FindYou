@@ -36,6 +36,7 @@ class GoogleGeocodeService
 
             curl_setopt_array($curl, array(
                 CURLOPT_RETURNTRANSFER => 1,
+                CURLOPT_REFERER => 'https://findyou.com.ua'
             ));
 
             $curlResponse = json_decode(curl_exec($curl), true);
@@ -82,5 +83,32 @@ class GoogleGeocodeService
         }
 
         return $response;
+    }
+
+    public function getCoordsByPlaceId($placeId)
+    {
+        $query = http_build_query([
+            'place_id' => $placeId,
+            'key' => $this->apiKey,
+        ]);
+
+        $curl = curl_init('https://maps.googleapis.com/maps/api/geocode/json?'.$query);
+
+        curl_setopt_array($curl, array(
+            CURLOPT_RETURNTRANSFER => 1,
+            CURLOPT_REFERER => 'https://findyou.com.ua'
+        ));
+
+        $curlResponse = json_decode(curl_exec($curl), true);
+
+        if (array_key_exists('results', $curlResponse) && count($curlResponse['results']) > 0) {
+            $coords = $curlResponse['results'][0]['geometry']['location'];
+        }
+        else {
+            $coords = ['lat' => null, 'lng' => null];
+        }
+
+
+        return $coords;
     }
 }

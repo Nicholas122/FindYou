@@ -78,7 +78,7 @@ class PostEntityListener
 
             $repository = $em->getRepository('AppBundle:Photo');
 
-            $photoIds = $request->get('photos');
+            $photoIds = $request->get('photos') ?: [];
 
             foreach ($photoIds as $photoId) {
                 $photo = $repository->findOneById($photoId);
@@ -118,14 +118,22 @@ class PostEntityListener
 
         if ($places) {
             foreach ($places as $key => $place) {
+                $coords = $place[0]['geometry']['location'];
                 $addressComponents = $place[0]['address_components'];
-                $places[$key] = $addressComponents[1]['long_name'].', '.
-                    $addressComponents[2]['long_name'].', '.
-                    $addressComponents[3]['long_name'].', '.
-                    $addressComponents[4]['long_name'];
+                $address = '';
+                foreach ($addressComponents as $addressComponent) {
+                    $address .= $addressComponent['long_name'].', ';
+                }
+
+                $places[$key] = substr($address, 0, -2);
             }
 
             $entity->setPlace($places);
+        }
+
+        if ($coords) {
+            $entity->setLat($coords['lat']);
+            $entity->setLng($coords['lng']);
         }
     }
 }

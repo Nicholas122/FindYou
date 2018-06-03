@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\Expr\Comparison;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\QueryBuilder;
@@ -142,8 +143,10 @@ abstract class BaseRestController extends FOSRestController
         if ($callback) {
             $callback($queryBuilder);
         }
+
         $count = clone $queryBuilder;
         $count = $count->select('entity.id')->distinct('entity.id')->getQuery()->getResult();
+
         $count = count($count);
         if ($offset < $count) {
             $end = isset($limit) ? $offset + $limit : $count;

@@ -32,6 +32,7 @@ services:
 
     app.google_geocode.service:
         class: AppBundle\Service\Google\GoogleGeocodeService
+        public: true
         arguments: ['%google_geocode_api_key%']
 
     app.reply.service:
