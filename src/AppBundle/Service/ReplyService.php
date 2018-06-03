@@ -27,9 +27,11 @@ class ReplyService
     {
         $conversation = $this->createConversation($reply->getPost());
 
-        $this->createUserConversations($conversation, $user, $reply->getPost()->getUser());
+        $authorConversation = $this->createUserConversations($conversation, $user, $reply->getPost()->getUser());
 
         $this->createMessages($conversation, $reply, $user);
+
+        return $authorConversation;
     }
 
     private function createConversation(Post $post)
@@ -63,6 +65,8 @@ class ReplyService
         $this->em->persist($receiverConversation);
 
         $this->em->flush();
+
+        return $authorConversation;
     }
 
     private function createMessages(Conversation $conversation, Reply $reply, User $author)

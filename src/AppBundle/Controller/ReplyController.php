@@ -34,7 +34,9 @@ class ReplyController extends BaseRestController
         $response = $this->handleForm($request, ReplyForm::class, $reply, ['persist' => false]);
 
         if ($response->getStatusCode() === 201) {
-            $this->getReplyService()->process($reply, $this->getUser());
+            $authorConversation = $this->getReplyService()->process($reply, $this->getUser());
+
+            $response = $this->baseSerialize($authorConversation, ['default'],201);
         }
 
         return $response;
