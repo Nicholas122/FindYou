@@ -43,12 +43,12 @@ class UserConversationListener implements EventSubscriberInterface
 
         $repository = $this->em->getRepository('AppBundle:Message');
 
-        $message = $repository->findOneBy([
+        $message = $repository->findBy([
             'conversation' => $userConversation->getParentConversation()->getId()
         ], ['creationDate' => 'DESC']);
 
-        if ($message instanceof Message) {
-            $response = $message->getCreationDate()->format('y-m-d H:i:s');
+        if (count($message) > 0 && $message[0] instanceof Message) {
+            $response = $message[0]->getCreationDate()->format('y-m-d H:i:s');
         }
 
         return $response;
