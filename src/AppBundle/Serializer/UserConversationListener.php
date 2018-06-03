@@ -22,18 +22,19 @@ class UserConversationListener implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            array('event' => 'serializer.pre_serialize', 'class' => 'AppBundle\Entity\UserConversation', 'method' => 'onPreSerialize'),
+            array('event' => 'serializer.post_serialize', 'class' => 'AppBundle\Entity\UserConversation', 'method' => 'onPostSerialize'),
         );
     }
 
-    public function onPreSerialize(ObjectEvent $event)
+    public function onPostSerialize(ObjectEvent $event)
     {
         /**
-         * @var UserConversation $obj
+         * @var User
          */
         $obj = $event->getObject();
 
-        $obj->setLastActivity($this->getLastActivity($obj));
+        $visitor = $event->getVisitor();
+        $visitor->addData('lastActivity', $this->getLastActivity($obj));
     }
 
     private function getLastActivity(UserConversation $userConversation)

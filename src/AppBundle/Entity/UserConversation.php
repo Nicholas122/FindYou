@@ -67,11 +67,6 @@ class UserConversation implements HasOwnerInterface
     protected $receiver;
 
     /**
-     * @var \DateTime
-     */
-    protected $lastActivity;
-
-    /**
      * Get id
      *
      * @return integer
@@ -208,17 +203,5 @@ class UserConversation implements HasOwnerInterface
     public function getReceiver()
     {
         return $this->receiver;
-    }
-
-    public function setLastActivity($lastActivity)
-    {
-        $this->lastActivity = $lastActivity;
-
-        return $this;
-    }
-
-    public function getLastActivity()
-    {
-        return $this->lastActivity;
     }
 }
