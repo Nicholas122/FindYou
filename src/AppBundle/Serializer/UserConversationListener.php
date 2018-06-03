@@ -53,7 +53,7 @@ class UserConversationListener implements EventSubscriberInterface
              */
             $message = $messages[0];
 
-            $response = $message->getCreationDate()->format('Y-m-d H:i:s Z');
+            $response = $message->getCreationDate()->format(DATE_W3C);
         }
 
         return $response;
