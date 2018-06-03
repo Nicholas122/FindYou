@@ -41,7 +41,7 @@ class UserConversationListener implements EventSubscriberInterface
     {
         $response = '';
 
-        $repository = $this->em->getRepository('AppBundle:Conversation');
+        $repository = $this->em->getRepository('AppBundle:Message');
 
         $message = $repository->findBy([
             'conversation' => $userConversation->getParentConversation()->getId()
