@@ -49,7 +49,7 @@ class ReplyService
 
     private function createUserConversations(Conversation $conversation, User $author, User $receiver)
     {
-        $guid = guid();
+        $guid = $this->guid();
 
         $authorConversation = new UserConversation();
         $authorConversation->setUser($author);
