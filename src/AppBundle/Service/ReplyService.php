@@ -49,17 +49,21 @@ class ReplyService
 
     private function createUserConversations(Conversation $conversation, User $author, User $receiver)
     {
+        $guid = guid();
+
         $authorConversation = new UserConversation();
         $authorConversation->setUser($author);
         $authorConversation->setParentConversation($conversation);
         $authorConversation->setPost($conversation->getPost());
         $authorConversation->setReceiver($receiver);
+        $authorConversation->setGuid($guid);
 
         $receiverConversation = new UserConversation();
         $receiverConversation->setUser($receiver);
         $receiverConversation->setParentConversation($conversation);
         $receiverConversation->setPost($conversation->getPost());
         $receiverConversation->setReceiver($author);
+        $receiverConversation->setGuid($guid);
 
         $this->em->persist($authorConversation);
         $this->em->persist($receiverConversation);
@@ -82,5 +86,15 @@ class ReplyService
 
         $this->em->flush();
 
+    }
+
+    private function guid()
+    {
+        if (function_exists('com_create_guid') === true)
+        {
+            return trim(com_create_guid(), '{}');
+        }
+
+        return sprintf('%04X%04X-%04X-%04X-%04X-%04X%04X%04X', mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(16384, 20479), mt_rand(32768, 49151), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535));
     }
 }

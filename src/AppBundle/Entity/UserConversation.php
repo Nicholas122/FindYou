@@ -67,6 +67,13 @@ class UserConversation implements HasOwnerInterface
     protected $receiver;
 
     /**
+     * @JMS\Expose
+     * @JMS\Groups({"default"})
+     * @ORM\Column(type="string")
+     */
+    protected $guid;
+
+    /**
      * Get id
      *
      * @return integer
@@ -203,5 +210,29 @@ class UserConversation implements HasOwnerInterface
     public function getReceiver()
     {
         return $this->receiver;
+    }
+
+    /**
+     * Set guid
+     *
+     * @param string $guid
+     *
+     * @return UserConversation
+     */
+    public function setGuid($guid)
+    {
+        $this->guid = $guid;
+
+        return $this;
+    }
+
+    /**
+     * Get guid
+     *
+     * @return string
+     */
+    public function getGuid()
+    {
+        return $this->guid;
     }
 }
