@@ -15,6 +15,7 @@ class PostForm extends AbstractType
     {
         $builder
             ->add('description')
+            ->add('meetingDate')
             ->add('photos')
             ->add('isAnonymously', null, ['empty_data' => '0'])
             ->add('placeId')
