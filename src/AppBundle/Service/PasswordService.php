@@ -18,7 +18,7 @@ class PasswordService
 
     private $sessionService;
 
-    public function __construct( SessionService $sessionService ,EntityManagerInterface $entityManager, EncoderFactoryInterface $encoderFactory)
+    public function __construct(EntityManagerInterface $entityManager, EncoderFactoryInterface $encoderFactory, SessionService $sessionService)
     {
         $this->em = $entityManager;
 

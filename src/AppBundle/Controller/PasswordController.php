@@ -4,7 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Form\UserForm;
 use AppBundle\Service\PasswordService;
-use AppBundle\Service\ProcessSMSService;
+use AppBundle\Service\SmsService;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Symfony\Component\HttpFoundation\Request;
@@ -103,12 +103,12 @@ class PasswordController extends BaseRestController
 
             if ($accessKey) {
                 /**
-                 * @var ProcessSMSService
+                 * @var SmsService $smsService
                  */
-                $processSMSService = $this->get('app.process_sms.service');
-
-                $processSMSService->process($accessKey, $phone, 'your_restore_pass_access_key');
-
+                $smsService = $this->get('app.sms.service');
+                
+                $smsService->send($accessKey, $phone);
+               
                 $response = $this->responseMessage('OK', ['data' => ['message' => 'Access key sent successfully']]);
             } else {
                 $error['sms'] = ['message' => $this->translate('can_not_proccess_sms', 'validators')];
