@@ -73,7 +73,7 @@ class PostEntityListener
     {
         $request = $this->requestStack->getCurrentRequest();
 
-        if ($request instanceof  Request) {
+        if ($request instanceof Request) {
             $em = $args->getEntityManager();
 
             $repository = $em->getRepository('AppBundle:Photo');
@@ -111,8 +111,7 @@ class PostEntityListener
 
         if ($placeId) {
             $places = $this->googleGeocodeService->getPlaceById($placeId, $args->getEntityManager());
-        }
-        elseif ($coords) {
+        } elseif ($coords) {
             $places = $this->googleGeocodeService->getPlaceByCoords($coords, $args->getEntityManager());
         }
 
@@ -122,7 +121,7 @@ class PostEntityListener
                 $addressComponents = $place[0]['address_components'];
                 $address = '';
                 foreach ($addressComponents as $addressComponent) {
-                    $address .= $addressComponent['long_name'].', ';
+                    $address .= $addressComponent['long_name'] . ', ';
                 }
 
                 $places[$key] = substr($address, 0, -2);
@@ -146,8 +145,39 @@ class PostEntityListener
      */
     public function setMeetingDate(Post $entity, LifecycleEventArgs $args)
     {
-        $meatingDate = $entity->getMeetingDate();
+        $meetingDate = $entity->getMeetingDate();
 
-        var_dump($meatingDate); die;
+        $day = new \DateTime($meetingDate['day']);
+        $endOfRange = [
+            'h' => date('h', strtotime($meetingDate['endOfRange'])),
+            'i' => date('i', strtotime($meetingDate['endOfRange'])),
+            's' => date('s', strtotime($meetingDate['endOfRange']))
+        ];
+
+        $startOfRange = [
+            'h' => date('h', strtotime($meetingDate['startOfRange'])),
+            'i' => date('i', strtotime($meetingDate['startOfRange'])),
+            's' => date('s', strtotime($meetingDate['startOfRange']))
+        ];
+
+        $meetingDateStart = new \DateTime();
+        $meetingDateStart->setDate(
+            intval($day->format('Y')),
+            intval($day->format('m')),
+            intval($day->format('d'))
+        );
+
+        $meetingDateStart->setTime($startOfRange['h'], $startOfRange['i'],$startOfRange['s']);
+        $entity->setMeetingDateStart($meetingDateStart);
+
+        $meetingDateEnd = new \DateTime();
+        $meetingDateEnd->setDate(
+            intval($day->format('Y')),
+            intval($day->format('m')),
+            intval($day->format('d'))
+        );
+
+        $meetingDateEnd->setTime($endOfRange['h'], $endOfRange['i'], $endOfRange['s']);
+        $entity->setMeetingDateEnd($meetingDateEnd);
     }
 }
