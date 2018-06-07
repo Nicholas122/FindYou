@@ -149,13 +149,13 @@ class PostEntityListener
 
         $day = new \DateTime($meetingDate['day']);
         $endOfRange = [
-            'h' => date('h', strtotime($meetingDate['endOfRange'])),
+            'h' => date('H', strtotime($meetingDate['endOfRange'])),
             'i' => date('i', strtotime($meetingDate['endOfRange'])),
             's' => date('s', strtotime($meetingDate['endOfRange']))
         ];
 
         $startOfRange = [
-            'h' => date('h', strtotime($meetingDate['startOfRange'])),
+            'h' => date('H', strtotime($meetingDate['startOfRange'])),
             'i' => date('i', strtotime($meetingDate['startOfRange'])),
             's' => date('s', strtotime($meetingDate['startOfRange']))
         ];

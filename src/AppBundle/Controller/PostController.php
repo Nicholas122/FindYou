@@ -101,7 +101,9 @@ class PostController extends BaseRestController
      * @Rest\QueryParam(name="_offset", requirements="\d+", nullable=true, strict=true)
      * @Rest\QueryParam(name="user", description="User")
      * @Rest\QueryParam(name="placeId", description="Place id")
-     *
+     * @Rest\QueryParam(name="day", description="Day")
+     * @Rest\QueryParam(name="startOfRange", description="Start of range")
+     * @Rest\QueryParam(name="endOfRange", description="End of range")
      */
     public function cgetAction(ParamFetcher $paramFetcher)
     {
@@ -120,14 +122,56 @@ class PostController extends BaseRestController
 
                 $criteria
                     ->select('entity',
-                        '( 6371 * acos( cos( radians('.$coords['lat'].') ) * ' .
+                        '( 6371 * acos( cos( radians(' . $coords['lat'] . ') ) * ' .
                         'cos( radians( entity.lat ) ) * ' .
-                        'cos( radians( entity.lng ) - radians('.$coords['lng'].') ) + ' .
-                        'sin( radians('.$coords['lat'].') ) * sin( radians( entity.lat ) ) ) ) AS HIDDEN distance')
-                ->having('distance <= 60')
-                ->orderBy('distance', 'ASC');
+                        'cos( radians( entity.lng ) - radians(' . $coords['lng'] . ') ) + ' .
+                        'sin( radians(' . $coords['lat'] . ') ) * sin( radians( entity.lat ) ) ) ) AS HIDDEN distance')
+                    ->having('distance <= 60')
+                    ->orderBy('distance', 'ASC');
 
 
+            }
+
+            if ($paramFetcher['day'] && $paramFetcher['startOfRange'] && $paramFetcher['endOfRange']) {
+                $day = new \DateTime($paramFetcher['day']);
+                $endOfRange = [
+                    'h' => date('H', strtotime($paramFetcher['endOfRange'])),
+                    'i' => date('i', strtotime($paramFetcher['endOfRange'])),
+                    's' => date('s', strtotime($paramFetcher['endOfRange']))
+                ];
+
+                $startOfRange = [
+                    'h' => date('H', strtotime($paramFetcher['startOfRange'])),
+                    'i' => date('i', strtotime($paramFetcher['startOfRange'])),
+                    's' => date('s', strtotime($paramFetcher['startOfRange']))
+                ];
+
+                $meetingDateStart = new \DateTime();
+                $meetingDateStart->setDate(
+                    intval($day->format('Y')),
+                    intval($day->format('m')),
+                    intval($day->format('d'))
+                );
+
+                $meetingDateStart->setTime($startOfRange['h'], $startOfRange['i'], $startOfRange['s']);
+
+                $meetingDateEnd = new \DateTime();
+                $meetingDateEnd->setDate(
+                    intval($day->format('Y')),
+                    intval($day->format('m')),
+                    intval($day->format('d'))
+                );
+
+                $meetingDateEnd->setTime($endOfRange['h'], $endOfRange['i'], $endOfRange['s']);
+
+                $criteria->andWhere(
+                    $criteria->expr()->gte(
+                        'entity.meetingDateStart',
+                        $criteria->expr()->literal($meetingDateStart->format('Y-m-d H:i:s'))));
+                $criteria->andWhere(
+                    $criteria->expr()->lte(
+                        'entity.meetingDateEnd',
+                        $criteria->expr()->literal($meetingDateEnd->format('Y-m-d H:i:s'))));
             }
         };
         unset($paramFetcher['placeId']);
