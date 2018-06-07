@@ -136,4 +136,18 @@ class PostEntityListener
             $entity->setLng($coords['lng']);
         }
     }
+
+    /**
+     * Set meeting date.
+     *
+     * @ORM\PrePersist()
+     *
+     * @param LifecycleEventArgs $args
+     */
+    public function setMeetingDate(Post $entity, LifecycleEventArgs $args)
+    {
+        $meatingDate = $entity->getMeetingDate();
+
+        var_dump($meatingDate); die;
+    }
 }

@@ -112,6 +112,22 @@ class Post implements HasOwnerInterface
      */
     protected $lng;
 
+    protected $meetingDate;
+
+    /**
+     * @JMS\Expose
+     * @JMS\Groups({"default"})
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    protected $meetingDateStart;
+
+    /**
+     * @JMS\Expose
+     * @JMS\Groups({"default"})
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    protected $meetingDateEnd;
+
     /**
      * Get id.
      *
@@ -447,5 +463,74 @@ class Post implements HasOwnerInterface
     public function getLng()
     {
         return $this->lng;
+    }
+
+    /**
+     * Set meetingDateStart
+     *
+     * @param \DateTime $meetingDateStart
+     *
+     * @return Post
+     */
+    public function setMeetingDateStart($meetingDateStart)
+    {
+        $this->meetingDateStart = $meetingDateStart;
+
+        return $this;
+    }
+
+    /**
+     * Get meetingDateStart
+     *
+     * @return \DateTime
+     */
+    public function getMeetingDateStart()
+    {
+        return $this->meetingDateStart;
+    }
+
+    /**
+     * Set meetingDateEnd
+     *
+     * @param \DateTime $meetingDateEnd
+     *
+     * @return Post
+     */
+    public function setMeetingDateEnd($meetingDateEnd)
+    {
+        $this->meetingDateEnd = $meetingDateEnd;
+
+        return $this;
+    }
+
+    /**
+     * Get meetingDateEnd
+     *
+     * @return \DateTime
+     */
+    public function getMeetingDateEnd()
+    {
+        return $this->meetingDateEnd;
+    }
+
+    /**
+     * Set meetingDate
+     *
+     * @return Post
+     */
+    public function setMeetingDate($meetingDate)
+    {
+        $this->meetingDate = $meetingDate;
+
+        return $this;
+    }
+
+    /**
+     * Get meetingDate
+     *
+     */
+    public function getMeetingDate()
+    {
+        return $this->meetingDate;
     }
 }
