@@ -1,0 +1,57 @@
+# Logfile created on 2018-06-30 18:19:09 +0300 by logger.rb/61378
+  INFO ---------------------------------------------------------------------------
+  INFO START 2018-06-30 18:19:09 +0300 cap development deploy
+  INFO ---------------------------------------------------------------------------
+  INFO [b5608c4b] Running /usr/bin/env mkdir -p /tmp as deployer@31.131.21.158
+  INFO [b5608c4b] Finished in 0.795 seconds with exit status 0 (successful).
+  INFO Uploading /tmp/git-ssh-find-you-server-development-nicholas.sh 100.0%
+  INFO [cff01929] Running /usr/bin/env chmod 700 /tmp/git-ssh-find-you-server-development-nicholas.sh as deployer@31.131.21.158
+  INFO [cff01929] Finished in 0.162 seconds with exit status 0 (successful).
+  INFO [e4efbc18] Running /usr/bin/env git ls-remote git@gitlab.com:Nicholas122/FindYou.git HEAD as deployer@31.131.21.158
+  INFO [e4efbc18] Finished in 1.750 seconds with exit status 0 (successful).
+  INFO [75f7052b] Running /usr/bin/env mkdir -p /var/www/server/findyou/shared /var/www/server/findyou/releases as deployer@31.131.21.158
+  INFO [75f7052b] Finished in 0.119 seconds with exit status 0 (successful).
+  INFO [044c9b81] Running /usr/bin/env mkdir -p /var/www/server/findyou/shared/vendor /var/www/server/findyou/shared/web/files as deployer@31.131.21.158
+  INFO [044c9b81] Finished in 0.161 seconds with exit status 0 (successful).
+  INFO [f02c5e27] Running /usr/bin/env mkdir -p /var/www/server/findyou/shared/app/config as deployer@31.131.21.158
+  INFO [f02c5e27] Finished in 0.161 seconds with exit status 0 (successful).
+  INFO The repository mirror is at /var/www/server/findyou/repo
+  INFO [0909ccd6] Running /usr/bin/env git remote set-url origin git@gitlab.com:Nicholas122/FindYou.git as deployer@31.131.21.158
+  INFO [0909ccd6] Finished in 0.162 seconds with exit status 0 (successful).
+  INFO [5d2dda75] Running /usr/bin/env git remote update --prune as deployer@31.131.21.158
+  INFO [5d2dda75] Finished in 2.232 seconds with exit status 0 (successful).
+  INFO [519c4c7a] Running /usr/bin/env mkdir -p /var/www/server/findyou/releases/20180630151913 as deployer@31.131.21.158
+  INFO [519c4c7a] Finished in 0.164 seconds with exit status 0 (successful).
+  INFO [66c4e084] Running /usr/bin/env git archive development | /usr/bin/env tar -x -f - -C /var/www/server/findyou/releases/20180630151913 as deployer@31.131.21.158
+  INFO [66c4e084] Finished in 0.268 seconds with exit status 0 (successful).
+  INFO [409bd730] Running /usr/bin/env echo "6e85343ad7f139b06558505b781a365741a065fd" > REVISION as deployer@31.131.21.158
+  INFO [409bd730] Finished in 0.157 seconds with exit status 0 (successful).
+  INFO [b331c859] Running /usr/bin/env mkdir -p /var/www/server/findyou/releases/20180630151913/app/config as deployer@31.131.21.158
+  INFO [b331c859] Finished in 0.160 seconds with exit status 0 (successful).
+  INFO [0773e0fe] Running /usr/bin/env ln -s /var/www/server/findyou/shared/app/config/parameters.yml /var/www/server/findyou/releases/20180630151913/app/config/parameters.yml as deployer@31.131.21.158
+  INFO [0773e0fe] Finished in 0.155 seconds with exit status 0 (successful).
+  INFO [447dac0d] Running /usr/bin/env mkdir -p /var/www/server/findyou/releases/20180630151913 /var/www/server/findyou/releases/20180630151913/web as deployer@31.131.21.158
+  INFO [447dac0d] Finished in 0.159 seconds with exit status 0 (successful).
+  INFO [9d0c86a0] Running /usr/bin/env ln -s /var/www/server/findyou/shared/vendor /var/www/server/findyou/releases/20180630151913/vendor as deployer@31.131.21.158
+  INFO [9d0c86a0] Finished in 0.159 seconds with exit status 0 (successful).
+  INFO [70aa981f] Running /usr/bin/env rm -rf /var/www/server/findyou/releases/20180630151913/web/files as deployer@31.131.21.158
+  INFO [70aa981f] Finished in 0.152 seconds with exit status 0 (successful).
+  INFO [5dfbc471] Running /usr/bin/env ln -s /var/www/server/findyou/shared/web/files /var/www/server/findyou/releases/20180630151913/web/files as deployer@31.131.21.158
+  INFO [5dfbc471] Finished in 0.160 seconds with exit status 0 (successful).
+  INFO [61c52cb8] Running /usr/bin/env composer install --no-interaction --optimize-autoloader as deployer@31.131.21.158
+  INFO [61c52cb8] Finished in 4.773 seconds with exit status 0 (successful).
+  INFO [3a20e378] Running /usr/bin/env php bin/console doctrine:migrations:migrate --no-interaction as deployer@31.131.21.158
+  INFO [3a20e378] Finished in 0.475 seconds with exit status 0 (successful).
+  INFO [9311df6a] Running /usr/bin/env ln -s /var/www/server/findyou/releases/20180630151913 /var/www/server/findyou/releases/current as deployer@31.131.21.158
+  INFO [9311df6a] Finished in 0.158 seconds with exit status 0 (successful).
+  INFO [fee21ad1] Running /usr/bin/env mv /var/www/server/findyou/releases/current /var/www/server/findyou as deployer@31.131.21.158
+  INFO [fee21ad1] Finished in 0.161 seconds with exit status 0 (successful).
+  INFO [f80a5da9] Running /usr/bin/env sudo chown www-data:www-data -R . as deployer@31.131.21.158
+  INFO [f80a5da9] Finished in 0.196 seconds with exit status 0 (successful).
+  INFO [8ec59f8c] Running /usr/bin/env sudo service php7.2-fpm restart as deployer@31.131.21.158
+  INFO [8ec59f8c] Finished in 0.346 seconds with exit status 0 (successful).
+  INFO Keeping 3 of 4 deployed releases on 31.131.21.158
+  INFO [07a66b31] Running /usr/bin/env rm -rf /var/www/server/findyou/releases/20180630150458 as deployer@31.131.21.158
+  INFO [07a66b31] Finished in 0.246 seconds with exit status 0 (successful).
+  INFO [b35ef072] Running /usr/bin/env echo "Branch development (at 6e85343ad7f139b06558505b781a365741a065fd) deployed as release 20180630151913 by nicholas" >> /var/www/server/findyou/revisions.log as deployer@31.131.21.158
+  INFO [b35ef072] Finished in 0.166 seconds with exit status 0 (successful).

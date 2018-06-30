@@ -43,7 +43,7 @@ class MessageListener implements EventSubscriberInterface
              */
             $visitor = $event->getVisitor();
 
-            $visitor->setData('conversation', $userConversation);
+            $visitor->addData('conversation', $userConversation);
         }
 
 
