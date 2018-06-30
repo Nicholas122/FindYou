@@ -16,8 +16,14 @@ services:
         tags:
             - { name: jms_serializer.event_subscriber }
 
-    app.serializer.message:
-        class: AppBundle\Serializer\MessageListener
+    app.serializer.outgoing_message:
+        class: AppBundle\Serializer\OutgoingMessageListener
+        arguments: ['@doctrine.orm.entity_manager']
+        tags:
+            - { name: jms_serializer.event_subscriber }
+
+    app.serializer.incoming_message:
+        class: AppBundle\Serializer\IncomingMessageListener
         arguments: ['@doctrine.orm.entity_manager']
         tags:
             - { name: jms_serializer.event_subscriber }

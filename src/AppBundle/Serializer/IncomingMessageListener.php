@@ -12,7 +12,7 @@ use JMS\Serializer\JsonSerializationVisitor;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use JMS\Serializer\EventDispatcher\ObjectEvent;
 
-class MessageListener implements EventSubscriberInterface
+class IncomingMessageListener implements EventSubscriberInterface
 {
     private $em;
 
@@ -24,7 +24,7 @@ class MessageListener implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            array('event' => 'serializer.post_serialize', 'class' => 'AppBundle\Entity\Message', 'method' => 'onPostSerialize'),
+            array('event' => 'serializer.post_serialize', 'class' => 'AppBundle\Entity\IncomingMessage', 'method' => 'onPostSerialize'),
         );
     }
 
