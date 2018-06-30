@@ -3,7 +3,6 @@
 namespace AppBundle\Service;
 
 use Monolog\Logger;
-use SoapClient;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Translation\Translator;
 

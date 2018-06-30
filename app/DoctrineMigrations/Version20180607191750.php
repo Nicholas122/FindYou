@@ -18,7 +18,7 @@ class Version20180607191750 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('DROP TABLE post_external_characteristic');
+        //$this->addSql('DROP TABLE post_external_characteristic');
         $this->addSql('ALTER TABLE post ADD meeting_date_start DATETIME DEFAULT NULL, ADD meeting_date_end DATETIME DEFAULT NULL');
     }
 

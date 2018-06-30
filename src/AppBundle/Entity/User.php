@@ -406,12 +406,7 @@ class User extends BaseUser
      */
     public function setRegistrationDate($registrationDate = null)
     {
-        if ($registrationDate) {
-            $this->registrationDate = $registrationDate;
-        }
-        else{
-            $this->registrationDate = new \DateTime('now');
-        }
+        $this->registrationDate = new \DateTime('now');
         
 
         return $this;
