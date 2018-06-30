@@ -43,7 +43,7 @@ class OutgoingMessageListener implements EventSubscriberInterface
              */
             $visitor = $event->getVisitor();
 
-            $visitor->addData('conversation', $userConversation);
+            $visitor->addData('conversationId', $userConversation->getId());
         }
 
 
