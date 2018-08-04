@@ -8,7 +8,7 @@ use AppBundle\Entity\Photo;
 
 class FcmService
 {
-    private $apiKey = 'AAAA4wynn7c:APA91bH7-FIVeQ5W7lDUEs37pgZwFm0w75iiV4AWLaohJW3zY76PHb8uqA0bDTRlkLoS5ThMhS62xIwY2tHmKCLG_3stL7c8suRfV9M0Hr0j9hPbGE5p30Ll9PTKf7qtlpScksbjk4Rd';
+    private $apiKey = 'AIzaSyA-YjpvHzxp6FPZpeqU_38SMCXBD20cJmQ';
     private $url = 'https://fcm.googleapis.com/fcm/send';
     private $schema;
     private $domain;
