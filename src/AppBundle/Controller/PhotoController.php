@@ -23,18 +23,22 @@ class PhotoController extends BaseRestController
      *
      *
      * @param Request $request
-     * @SWG\Tag(name="Photo")
-     * @SWG\Response(
-     *     response=200,
-     *     description="Upload photo",
-     *     @Model(type=AppBundle\Entity\Photo::class)
-     * )
-     * @SWG\Parameter(
+     * @SWG\Post(
+     *     tags={"Photo"},
+     *     consumes={"application/form-data"},
+     *     @SWG\Response(
+     *       response=200,
+     *       description="Upload photo",
+     *       @Model(type=AppBundle\Entity\Photo::class)
+     *     ),
+     *     @SWG\Parameter(
      *         name="form",
      *         in="body",
      *         description="Request params",
      *         @Model(type=AppBundle\Form\PhotoForm::class)
      *     )
+     *
+     * )
      * @Security("has_role('ABILITY_PHOTO_CREATE')")
      */
     public function postAction(Request $request)
