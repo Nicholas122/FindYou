@@ -50,7 +50,7 @@ class UserController extends BaseRestController
 
         $response = $this->handleForm($request, UserForm::class, $user, $groups);
 
-        if (201 === $response->getStatusCode() && !in_array($this->getParameter('kernel.environment'), ['test', 'dev'])) {
+        if (201 === $response->getStatusCode() && !in_array($this->getParameter('kernel.environment'), ['test'])) {
             /**
              * @var VerifyService $verifyService
              */

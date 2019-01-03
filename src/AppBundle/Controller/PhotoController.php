@@ -4,8 +4,9 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Photo;
 use AppBundle\Form\PhotoForm;
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Swagger\Annotations as SWG;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use Nelmio\ApiDocBundle\Annotation\Model;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
@@ -22,7 +23,18 @@ class PhotoController extends BaseRestController
      *
      *
      * @param Request $request
-     *
+     * @SWG\Tag(name="Photo")
+     * @SWG\Response(
+     *     response=200,
+     *     description="Upload photo",
+     *     @Model(type=AppBundle\Entity\Photo::class)
+     * )
+     * @SWG\Parameter(
+     *         name="form",
+     *         in="body",
+     *         description="Request params",
+     *         @Model(type=AppBundle\Form\PhotoForm::class)
+     *     )
      * @Security("has_role('ABILITY_PHOTO_CREATE')")
      */
     public function postAction(Request $request)
@@ -50,7 +62,11 @@ class PhotoController extends BaseRestController
      * @Rest\View(statusCode=204)
      *
      * @param Photo $photo
-     *
+     * @SWG\Tag(name="Photo")
+     * @SWG\Response(
+     *     response=204,
+     *     description="Delete photo",
+     * )
      * @return \Symfony\Component\HttpFoundation\Response
      * @Security("is_granted('ABILITY_PHOTO_DELETE', photo)")
      */

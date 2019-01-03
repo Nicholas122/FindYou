@@ -6,8 +6,8 @@ use AppBundle\Entity\Post;
 use AppBundle\Entity\User;
 use JMS\Serializer\EventDispatcher\EventSubscriberInterface;
 use JMS\Serializer\JsonSerializationVisitor;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use JMS\Serializer\EventDispatcher\ObjectEvent;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class PostListener implements EventSubscriberInterface
 {
@@ -15,7 +15,7 @@ class PostListener implements EventSubscriberInterface
 
     protected $requestStack;
 
-    public function __construct(TokenStorage $tokenStorage)
+    public function __construct(TokenStorageInterface $tokenStorage)
     {
         $this->tokenStorage = $tokenStorage;
     }
