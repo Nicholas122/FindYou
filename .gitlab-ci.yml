@@ -17,7 +17,7 @@ before_script:
   - apt update
   - apt upgrade -y
   - apt install git -y
-  - docker-php-ext-install mbstring pdo pdo_mysql curl json intl gd xml zip bz2 opcache
+  - docker-php-ext-install mbstring pdo pdo_mysql gd xml zip
   - php -v
   - curl -sS https://getcomposer.org/installer | php
   - php composer.phar install
