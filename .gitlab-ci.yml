@@ -14,10 +14,10 @@ variables:
 
 # Before Script
 before_script:
-  - bash .gitlab-ci.sh > /dev/null
+  - ./.gitlab-ci.sh
   - php -v
   - curl -sS https://getcomposer.org/installer | php
-  - php composer.phar install --prefer-dist
+  - php composer.phar install
   - bin/console doc:database:create
   - bin/console doc:migrations:migrate
 
