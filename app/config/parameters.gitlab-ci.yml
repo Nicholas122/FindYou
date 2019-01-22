@@ -1,0 +1,17 @@
+# This file is auto-generated during the composer install
+parameters:
+  database_host: mysql
+  database_port: null
+  database_name: sf_findyou
+  database_user: root
+  database_password: root
+  mailer_transport: gmail
+  mailer_host: null
+  mailer_user: pioneer2407@gmail.com
+  mailer_password: rasmus98
+  mailer_port: null
+  mailer_encryption: null
+  developer_mail: gritsuk57@gmail.com
+  secret: ThisTokenIsNotSoSecretChangeIt
+  domain: findyou.com.ua
+  schema: https
