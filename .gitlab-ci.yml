@@ -21,6 +21,7 @@ before_script:
   - curl -sS https://getcomposer.org/installer | php
   - php composer.phar install
   - cp app/config/parameters.gitlab-ci.yml app/config/parameters.yml
+  - cat app/config/parameters.yml
   - bin/console doc:migrations:migrate
 
 
