@@ -3,8 +3,8 @@ parameters:
   database_host: mysql
   database_port: null
   database_name: sf_findyou
-  database_user: root
-  database_password: root
+  database_user: findyou
+  database_password: findyou
   mailer_transport: gmail
   mailer_host: null
   mailer_user: pioneer2407@gmail.com

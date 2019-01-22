@@ -8,8 +8,8 @@ services:
 # Variables and root user used
 variables:
   MYSQL_ROOT_PASSWORD: root
-  MYSQL_USER: root
-  MYSQL_PASSWORD: root
+  MYSQL_USER: findyou
+  MYSQL_PASSWORD: findyou
   MYSQL_DATABASE: sf_findyou
 
 # Before Script
@@ -21,7 +21,6 @@ before_script:
   - curl -sS https://getcomposer.org/installer | php
   - php composer.phar install
   - cp app/config/parameters.gitlab-ci.yml app/config/parameters.yml
-  - ping -c 3 mysql
   - bin/console doc:migrations:migrate
 
 
