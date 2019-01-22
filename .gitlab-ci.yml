@@ -21,7 +21,7 @@ before_script:
   - curl -sS https://getcomposer.org/installer | php
   - php composer.phar install
   - cp app/config/parameters.gitlab-ci.yml app/config/parameters.yml
-  - bin/console doc:database:create
+  - ping -c 3 mysql
   - bin/console doc:migrations:migrate
 
 
