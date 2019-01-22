@@ -3,7 +3,7 @@
 # Defines a single server with a list of roles and multiple properties.
 # You can define all roles on a single server, or split them:
 
-server '31.131.21.158', user: 'deployer', roles: %w{app web db}, port: 2022
+server 'findyou.com.ua', user: 'root', roles: %w{app web db}, port: 22
 
 # role-based syntax
 # ==================
@@ -24,7 +24,7 @@ server '31.131.21.158', user: 'deployer', roles: %w{app web db}, port: 2022
 # For available Capistrano configuration variables see the documentation page.
 # http://capistranorb.com/documentation/getting-started/configuration/
 # Feel free to add new variables to customise your setup.
-set :deploy_to, '/var/www/server/findyou/'
+set :deploy_to, '/var/www/FindYou/API'
 # Default branch is :master
 set :branch, :'development'
 
