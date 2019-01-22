@@ -14,7 +14,7 @@ variables:
 
 # Before Script
 before_script:
-  - ./.gitlab-ci.sh
+  - apt update
   - php -v
   - curl -sS https://getcomposer.org/installer | php
   - php composer.phar install
