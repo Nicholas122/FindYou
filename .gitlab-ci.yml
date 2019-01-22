@@ -14,7 +14,6 @@ variables:
 
 # Before Script
 before_script:
-  - apt install git -yqq
   - bash .gitlab-ci.sh > /dev/null
   - php -v
   - curl -sS https://getcomposer.org/installer | php
