@@ -16,6 +16,6 @@ variables:
 before_script:
   - php -v
 
-#test:app:
-#  script:
-#    - phpunit -c app --debug
+test:app:
+  script:
+    - phpunit -c app --debug
